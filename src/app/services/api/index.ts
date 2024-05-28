@@ -7,6 +7,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: async (headers) => {
     return headers;
   },
+  credentials: "include"
 });
 
 // initialize an empty api service that we'll inject endpoints into later as needed

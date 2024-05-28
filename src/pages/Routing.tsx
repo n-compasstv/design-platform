@@ -18,7 +18,7 @@ const Routing = () => {
     <Routes>
       {getRouteByRole("")}
       {/* {isAuthenticated && user ? (
-        routeByRole("")
+        getRouteByRole("")
       ) : (
         <Route path="/signin" element={<Signin />} />
       )} */}

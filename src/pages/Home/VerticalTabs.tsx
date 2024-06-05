@@ -4,7 +4,7 @@ import { FaShapes } from "react-icons/fa";
 import { FaPhotoFilm } from "react-icons/fa6";
 import { FaTableList } from "react-icons/fa6";
 import { IoText } from "react-icons/io5";
-import SolidTabs from "../../../common/components/SolidTabs";
+import SolidTabs from "../../common/components/SolidTabs";
 import { IconButton, Typography } from "@mui/material";
 
 const VerticalTabs = () => {

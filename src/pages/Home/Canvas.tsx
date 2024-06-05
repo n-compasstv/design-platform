@@ -2,10 +2,10 @@ import { DragEvent, FC, createRef, useEffect, useRef, useState } from "react";
 import { Stage, Layer, Image, Transformer } from "react-konva";
 import Konva from "konva";
 import useImage from "use-image";
-import { KonvaImageType } from "../../../app/types/KonvaImageType";
+import { KonvaImageType } from "../../app/types/KonvaImageType";
 import { Box, ImageList, ImageListItem, Stack } from "@mui/material";
 
-type UrlImageProps = {
+export type UrlImageProps = {
   image: KonvaImageType;
   isSelected: boolean;
   onSelect: () => void;
@@ -85,7 +85,7 @@ const UrlImage: FC<UrlImageProps> = ({
 };
 
 type CanvasProps = {
-  elements: Array<UrlImageProps | any>;
+  elements: Array<UrlImageProps>;
 };
 
 const Canvas: FC<CanvasProps> = ({ elements }) => {
@@ -105,7 +105,7 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
           {elements.map((image) => {
             return (
               <UrlImage
-                image={image}
+                image={image.image}
                 isSelected={false}
                 onChange={() => {}}
                 onSelect={() => {}}

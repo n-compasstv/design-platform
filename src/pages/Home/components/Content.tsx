@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import Canvas from "./Canvas";
 import { useState } from "react";
 import { KonvaImageType } from "../../../app/types/KonvaImageType";
@@ -9,17 +9,18 @@ const HomeContent = () => {
   const [elements, setElements] = useState<KonvaImageType | any>([]);
   return (
     <Grid
+      height="100%"
       alignItems="stretch"
       container
-      spacing={1}
+      spacing={0}
       columns={3}
       wrap="nowrap"
-      sx={{ overflow: "auto" }}
+      justifyContent="space-between"
     >
       <Grid item>
         <VerticalTabs />
       </Grid>
-      <Grid item>
+      <Grid item sx={{ overflow: "auto" }} display="flex" alignItems="center">
         <Canvas elements={elements} />
       </Grid>
       <Grid item>

@@ -91,30 +91,30 @@ type CanvasProps = {
 const Canvas: FC<CanvasProps> = ({ elements }) => {
   const stageRef = createRef<Konva.Stage>();
   return (
-    <Stack width="full">
-      <Box p={4}>
-        <Stage
-          className="konva-container"
-          width={1366}
-          height={768}
-          style={{ background: "#fff" }}
-          ref={stageRef}
-        >
-          <Layer>
-            {elements.map((image) => {
-              return (
-                <UrlImage
-                  image={image}
-                  isSelected={false}
-                  onChange={() => {}}
-                  onSelect={() => {}}
-                />
-              );
-            })}
-          </Layer>
-        </Stage>
-      </Box>
-    </Stack>
+    <Box p={5}>
+      <Stage
+        className="konva-container"
+        // width={window.innerWidth - 500}
+        // height={(window.innerWidth - 500) * (9 / 16)}
+        width={1280}
+        height={720}
+        style={{ background: "#fff" }}
+        ref={stageRef}
+      >
+        <Layer>
+          {elements.map((image) => {
+            return (
+              <UrlImage
+                image={image}
+                isSelected={false}
+                onChange={() => {}}
+                onSelect={() => {}}
+              />
+            );
+          })}
+        </Layer>
+      </Stage>
+    </Box>
   );
 };
 

@@ -12,39 +12,44 @@ import { FaPlus } from "react-icons/fa";
 export default function DenseAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Toolbar variant="dense" sx={{ bgcolor: "#1c2731" }}>
-          <Typography variant="h6" color="inherit">
-            News template Sample
-          </Typography>
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
+        <Toolbar sx={{ bgcolor: "#1c2731" }}>
+          <Typography color="inherit">News template Sample</Typography>
 
           <Box
             sx={{ justifyContent: "end", flexGrow: 1, display: { md: "flex" } }}
           >
             <Button
+              color="warning"
               variant="contained"
-              sx={{ my: 2, mr: 1 }}
+              sx={{ mr: 1 }}
               endIcon={<FaChartLine size={14} />}
             >
               Dashboard
             </Button>
             <Button
+              color="warning"
               variant="contained"
-              sx={{ my: 2, mr: 1 }}
+              sx={{ mr: 1 }}
               endIcon={<FaHome size={14} />}
             >
               Home
             </Button>
             <Button
+              color="warning"
               variant="contained"
-              sx={{ my: 2, mr: 1 }}
+              sx={{ mr: 1 }}
               endIcon={<FaSave size={14} />}
             >
               Save
             </Button>
             <Button
+              color="warning"
               variant="contained"
-              sx={{ my: 2, mr: 1 }}
+              sx={{ mr: 1 }}
               endIcon={<FaPlus size={14} />}
             >
               Save As

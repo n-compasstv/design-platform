@@ -6,6 +6,9 @@ const theme = createTheme({
     secondary: {
       main: green[500],
     },
+    warning: {
+      main: "#cc8521",
+    }
   },
   typography: {
     fontSize: 13,
@@ -15,15 +18,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
-          ...(ownerState.variant === "contained" &&
-            ownerState.color === "primary" && {
-              backgroundColor: "#cc8521",
-              textTransform: "capitalize",
-            }),
-          ...(ownerState.variant === "text" && {
-              textTransform: "capitalize",
-              color: "#000"
-            }),
+          textTransform: "capitalize",
         }),
       },
     },

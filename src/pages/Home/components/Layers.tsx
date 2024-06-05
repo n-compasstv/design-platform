@@ -1,4 +1,5 @@
 import {
+  Box,
   Drawer,
   List,
   ListItemButton,
@@ -11,10 +12,9 @@ import { IoLayersSharp } from "react-icons/io5";
 
 const Layers = () => {
   return (
-    <Drawer open={true} anchor="right" variant="permanent">
-      <Toolbar />
+    <Box height="100%" bgcolor="background.paper" position="sticky">
       <List
-        sx={{ width: "250px", maxWidth: 250, bgcolor: "background.paper" }}
+        sx={{ width: "250px", maxWidth: 250}}
         component="nav"
         aria-labelledby="layers"
         subheader={
@@ -28,7 +28,7 @@ const Layers = () => {
           <ListItemIcon></ListItemIcon>
         </ListItemButton>
       </List>
-    </Drawer>
+    </Box>
   );
 };
 

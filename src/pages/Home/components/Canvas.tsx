@@ -89,27 +89,30 @@ type CanvasProps = {
 };
 
 const Canvas: FC<CanvasProps> = ({ elements }) => {
-  const dragUrl = useRef<string>("");
   const stageRef = createRef<Konva.Stage>();
-  const [selectedId, selectShape] = useState();
   return (
-    <Stack direction="row" spacing={2}>
-      <Box>
-        <Box>
-          <Stage
-            className="konva-container"
-            width={window.innerWidth - 480}
-            height={window.innerHeight - 200}
-            style={{ border: "1px solid grey" }}
-            ref={stageRef}
-          >
-            <Layer>
-              {elements.map((image) => {
-                return <UrlImage image={image} isSelected={false} onChange={() => {}} onSelect={() => {}}/>;
-              })}
-            </Layer>
-          </Stage>
-        </Box>
+    <Stack width="full">
+      <Box p={4}>
+        <Stage
+          className="konva-container"
+          width={1366}
+          height={768}
+          style={{ background: "#fff" }}
+          ref={stageRef}
+        >
+          <Layer>
+            {elements.map((image) => {
+              return (
+                <UrlImage
+                  image={image}
+                  isSelected={false}
+                  onChange={() => {}}
+                  onSelect={() => {}}
+                />
+              );
+            })}
+          </Layer>
+        </Stage>
       </Box>
     </Stack>
   );

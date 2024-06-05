@@ -45,6 +45,7 @@ const VerticalTabs = () => {
           {tabs.map((m, index) => (
             <IconButton
               sx={{
+                py: 2,
                 color: "#000",
                 bgcolor: "#fff",
                 borderRadius: "0px",
@@ -56,7 +57,7 @@ const VerticalTabs = () => {
             >
               <Box>
                 <Box>{m.icon}</Box>
-                <Typography fontWeight={500} component="small">{m.label}</Typography>
+                <Typography fontWeight={600}><small>{m.label}</small></Typography>
               </Box>
             </IconButton>
           ))}

@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { UserModel } from "../types/UserModel";
+import { UserModel } from "../models/UserModel";
 // import { useLocalStorage } from "../helpers/storage";
 
 

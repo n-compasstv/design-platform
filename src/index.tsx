@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import { store } from "./app/state/store";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./app/providers/AuthProvider";
+import { ThemeProvider } from "@mui/material";
+import theme from "./app/theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,11 +16,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <AuthProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </AuthProvider>
+      <ThemeProvider theme={theme}>
+        <AuthProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AuthProvider>
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>
 );

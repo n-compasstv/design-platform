@@ -18,7 +18,6 @@ const VerticalTabs = () => {
     {
       label: "Media",
       icon: <FaPhotoFilm fontSize="large" />,
-      content: <MediaList />,
     },
     {
       label: "Shapes",
@@ -85,10 +84,8 @@ const VerticalTabs = () => {
       </Box>
       
       <MediaDialog
-        content={selectedTab > -1 ? tabs[selectedTab].content : ""}
         open={mediaIsOpen}
         handleClose={() => {
-          setSelectedTab(-1);
           setMediaIsOpen(false);
         }}
       />

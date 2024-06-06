@@ -8,11 +8,43 @@ import {
   Typography,
 } from "@mui/material";
 import { useLazyGetContentsQuery } from "../../../app/services/api/endpoints/tier1/images";
-import { useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import { blueGrey } from "@mui/material/colors";
+import { useAppSelector } from "../../../app/hooks/useStore";
+import {
+  KonvaElementType,
+  KonvaImageType,
+} from "../../../app/types/KonvaTypes";
+import { getImageMetadata } from "../../../app/helpers/imageHelper";
 
-const MediaList = () => {
+type MediaListProps = {
+  setSelectedMedia: (media: Array<KonvaImageType>) => void;
+};
+
+const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
   const [getContentsTrigger, getContentsResult] = useLazyGetContentsQuery();
+  const [selectedLayers, setSelectedLayers] = useState<Array<KonvaElementType>>(
+    []
+  );
+
+  const handleImageClick = async (imageUrl: string) => {
+    const image = await getImageMetadata(imageUrl);
+    const newLayers = [
+      ...selectedLayers,
+      {
+        src: image.src,
+        x: 80,
+        y: 80,
+        width: image.width,
+        height: image.height,
+      },
+    ];
+    setSelectedLayers(newLayers);
+  };
+
+  useEffect(() => {
+    setSelectedMedia(selectedLayers);
+  }, [selectedLayers]);
 
   useEffect(() => {
     getContentsTrigger();
@@ -30,8 +62,11 @@ const MediaList = () => {
         : getContentsResult.data
       )?.map((item) =>
         item ? (
-          <Card key={item.contentId} sx={{ m: 1, maxHeight: 140, maxWidth: 140 }}>
-            <CardActionArea>
+          <Card
+            key={item.contentId}
+            sx={{ m: 1, maxHeight: 140, maxWidth: 140 }}
+          >
+            <CardActionArea onClick={() => handleImageClick(item.fileStackUrl)}>
               <CardMedia
                 sx={{ height: 100, width: 140, backgroundSize: "contain" }}
                 component="img"

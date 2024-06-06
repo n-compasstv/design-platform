@@ -6,8 +6,38 @@ import { FaTableList } from "react-icons/fa6";
 import { IoText } from "react-icons/io5";
 import SolidTabs from "../../common/components/SolidTabs";
 import { IconButton, Typography } from "@mui/material";
+import { useState } from "react";
+import MediaDialog from "./components/MediaDialog";
+import MediaList from "./components/MediaList";
 
 const VerticalTabs = () => {
+  const [mediaIsOpen, setMediaIsOpen] = useState(false);
+  const [selectedTab, setSelectedTab] = useState<number>(-1);
+
+  const tabs = [
+    {
+      label: "Media",
+      icon: <FaPhotoFilm fontSize="large" />,
+      content: <MediaList />,
+    },
+    {
+      label: "Shapes",
+      icon: <FaShapes fontSize="large" />,
+    },
+    {
+      label: "Dataset",
+      icon: <FaTableList fontSize="large" />,
+    },
+    {
+      label: "Text",
+      icon: <IoText fontSize="large" />,
+    },
+    {
+      label: "Reload",
+      icon: <TbReload fontSize="large" />,
+    },
+  ];
+
   return (
     <Box
       height="100%"
@@ -25,8 +55,9 @@ const VerticalTabs = () => {
           onChange={() => {}}
           aria-label="Vertical side tabs"
         >
-          {tabs.map((m, index) => (
+          {tabs.map((tab, index) => (
             <IconButton
+              key={tab.label}
               sx={{
                 py: 2,
                 color: "#000",
@@ -37,42 +68,32 @@ const VerticalTabs = () => {
                 borderBottom:
                   index < tabs.length - 1 ? "1px solid #ededed" : "",
               }}
+              onClick={() => {
+                setSelectedTab(index);
+                setMediaIsOpen(true);
+              }}
             >
               <Box>
-                <Box>{m.icon}</Box>
+                <Box>{tab.icon}</Box>
                 <Typography fontWeight={600}>
-                  <small>{m.label}</small>
+                  <small>{tab.label}</small>
                 </Typography>
               </Box>
             </IconButton>
           ))}
         </SolidTabs>
       </Box>
+      
+      <MediaDialog
+        content={selectedTab > -1 ? tabs[selectedTab].content : ""}
+        open={mediaIsOpen}
+        handleClose={() => {
+          setSelectedTab(-1);
+          setMediaIsOpen(false);
+        }}
+      />
     </Box>
   );
 };
 
 export default VerticalTabs;
-
-const tabs = [
-  {
-    label: "Media",
-    icon: <FaPhotoFilm fontSize="large" />,
-  },
-  {
-    label: "Shapes",
-    icon: <FaShapes fontSize="large" />,
-  },
-  {
-    label: "Dataset",
-    icon: <FaTableList fontSize="large" />,
-  },
-  {
-    label: "Text",
-    icon: <IoText fontSize="large" />,
-  },
-  {
-    label: "Reload",
-    icon: <TbReload fontSize="large" />,
-  },
-];

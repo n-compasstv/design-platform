@@ -12,6 +12,8 @@ const Element: FC<KonvaElementType> = ({
   onChange,
   width,
   height,
+  stroke,
+  strokeWidth,
 }) => {
   const [img] = useImage(src ?? "");
   const [position, setPosition] = useState<{
@@ -43,6 +45,8 @@ const Element: FC<KonvaElementType> = ({
         height={height}
         x={position.x}
         y={position.y}
+        stroke={stroke}
+        strokeWidth={strokeWidth}
         onDragEnd={(e) => {
           setPosition({
             x: e.target.x(),

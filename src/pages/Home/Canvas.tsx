@@ -6,22 +6,16 @@ import { KonvaElementType, KonvaImageType } from "../../app/types/KonvaTypes";
 import { Box, ImageList, ImageListItem, Stack } from "@mui/material";
 import Element from "./components/Element";
 import { useAppDispatch, useAppSelector } from "../../app/hooks/useStore";
-import { setLayers } from "../../app/slices/layerSlice";
+import { setLayers, setSelectedLayer } from "../../app/slices/layerSlice";
 
 type CanvasProps = {
   elements: Array<KonvaElementType>;
 };
 
 const Canvas: FC<CanvasProps> = ({ elements }) => {
-  const [selectedElement, setSelectedElement] = useState<
-    KonvaElementType | undefined
-  >();
   const stageRef = createRef<Konva.Stage>();
   const dispatch = useAppDispatch();
-  const { layers } = useAppSelector((u) => u.layer);
-
-  console.log({elements})
-
+  const { layers, selectedLayer } = useAppSelector((u) => u.layer);
   return (
     <Box p={5}>
       <Stage
@@ -43,18 +37,18 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
                 src={element.src}
                 x={element.x}
                 y={element.y}
-                isSelected={element.src == selectedElement?.src}
+                isSelected={element.contentId == selectedLayer?.contentId}
                 onChange={(newElement) => {
                   const newLayers = layers.slice();
                   const currentLayer = {
                     ...newLayers[index],
                     width: newElement.width,
                     height: newElement.height,
-                  }
+                  };
                   newLayers[index] = currentLayer;
                   dispatch(setLayers(newLayers));
                 }}
-                onSelect={() => setSelectedElement(element)}
+                onSelect={() => dispatch(setSelectedLayer(element))}
               />
             );
           })}

@@ -1,4 +1,5 @@
 import {
+  Badge,
   Card,
   CardActionArea,
   CardContent,
@@ -9,7 +10,7 @@ import {
 } from "@mui/material";
 import { useLazyGetContentsQuery } from "../../../app/services/api/endpoints/tier1/images";
 import { FC, useEffect, useState } from "react";
-import { blueGrey } from "@mui/material/colors";
+import { blueGrey, teal } from "@mui/material/colors";
 import { useAppSelector } from "../../../app/hooks/useStore";
 import {
   KonvaElementType,
@@ -27,18 +28,27 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
     []
   );
 
-  const handleImageClick = async (imageUrl: string) => {
-    const image = await getImageMetadata(imageUrl);
-    const newLayers = [
-      ...selectedLayers,
-      {
-        src: image.src,
-        x: 80,
-        y: 80,
-        width: image.width,
-        height: image.height,
-      },
-    ];
+  const handleImageClick = async (imageUrl: string, contentId: string) => {
+    let newLayers: KonvaElementType[] = [];
+    if (selectedLayers.some((s) => s.contentId == contentId)) {
+      // remove
+      newLayers = [...selectedLayers].filter((f) => f.contentId != contentId);
+    } else {
+      //add
+      const image = await getImageMetadata(imageUrl);
+      newLayers = [
+        ...selectedLayers,
+        {
+          contentId: contentId,
+          src: image.src,
+          x: 80,
+          y: 80,
+          width: image.width,
+          height: image.height,
+        },
+      ];
+    }
+
     setSelectedLayers(newLayers);
   };
 
@@ -66,7 +76,19 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
             key={item.contentId}
             sx={{ m: 1, maxHeight: 140, maxWidth: 140 }}
           >
-            <CardActionArea onClick={() => handleImageClick(item.fileStackUrl)}>
+            <CardActionArea
+              onClick={() =>
+                handleImageClick(item.fileStackUrl, item.contentId)
+              }
+            >
+              <Badge
+                sx={{ color: teal[500] }}
+                badgeContent={
+                  selectedLayers.some((s) => s.contentId == item.contentId)
+                    ? 4
+                    : undefined
+                }
+              ></Badge>
               <CardMedia
                 sx={{ height: 100, width: 140, backgroundSize: "contain" }}
                 component="img"

@@ -1,6 +1,7 @@
 import Konva from "konva";
 
 export interface KonvaImageType{
+  contentId?: string
   src?: string;
   x?: number;
   y?: number;
@@ -13,4 +14,6 @@ export interface KonvaElementType extends KonvaImageType {
   type?: string;
   width?: number;
   height?: number;
+  stroke?: string;
+  strokeWidth?: number;
 }

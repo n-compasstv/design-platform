@@ -7,9 +7,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Typography } from "@mui/material";
 import MediaList from "./MediaList";
-import { KonvaElementType, KonvaImageType } from "../../../app/types/KonvaTypes";
+import {
+  KonvaElementType,
+  KonvaImageType,
+} from "../../../app/types/KonvaTypes";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks/useStore";
-import { setLayers } from "../../../app/slices/layerSlice";
+import { setLayers, setSelectedLayer } from "../../../app/slices/layerSlice";
 
 type MediaDialogProps = {
   open: boolean;
@@ -17,13 +20,19 @@ type MediaDialogProps = {
 };
 
 const MediaDialog: FC<MediaDialogProps> = ({ open, handleClose }) => {
-  const [selectedMedia, setSelectedMedia] = useState<Array<KonvaElementType>>([]);
+  const [selectedMedia, setSelectedMedia] = useState<Array<KonvaElementType>>(
+    []
+  );
   const dispatch = useAppDispatch();
   const { layers } = useAppSelector((u) => u.layer);
 
   const handleClickSubmit = () => {
     if (selectedMedia.length > 0) {
-      dispatch(setLayers([...layers, ...selectedMedia]));
+      const allLayers = [...layers, ...selectedMedia];
+      dispatch(setLayers(allLayers));
+      dispatch(
+        setSelectedLayer(selectedMedia[selectedMedia.length - 1])
+      );
     }
     handleClose();
   };

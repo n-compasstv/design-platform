@@ -4,10 +4,12 @@ import { KonvaElementType } from "../types/KonvaTypes";
 
 type LayerState = {
   layers: KonvaElementType[];
+  selectedLayer: KonvaElementType | undefined;
 };
 
 const initialState: LayerState = {
   layers: [],
+  selectedLayer: undefined
 };
 
 export const layerSlice = createSlice({
@@ -17,9 +19,13 @@ export const layerSlice = createSlice({
     setLayers: (state, action: PayloadAction<KonvaElementType[]>) => {
       state.layers = action.payload;
     },
+
+    setSelectedLayer: (state, action: PayloadAction<KonvaElementType | undefined>) => {
+      state.selectedLayer = action.payload;
+    },
   },
 });
 
-export const { setLayers } = layerSlice.actions;
+export const { setLayers, setSelectedLayer } = layerSlice.actions;
 
 export default layerSlice.reducer;

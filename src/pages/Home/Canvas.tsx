@@ -31,13 +31,14 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
           {elements.map((element, index) => {
             return (
               <Element
+                elementId={element.elementId}
                 width={element.width}
                 height={element.height}
                 key={element.src}
                 src={element.src}
                 x={element.x}
                 y={element.y}
-                isSelected={element.contentId == selectedLayer?.contentId}
+                isSelected={element.elementId == selectedLayer?.elementId}
                 onChange={(newElement) => {
                   const newLayers = layers.slice();
                   const currentLayer = {

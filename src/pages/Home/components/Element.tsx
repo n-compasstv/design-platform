@@ -65,6 +65,7 @@ const Element: FC<KonvaElementType> = ({
           node.scaleY(1);
           onChange &&
             onChange({
+              elementId: node.elementId,
               x: node.x(),
               y: node.y(),
               width: Math.max(5, node.width() * scaleX),

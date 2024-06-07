@@ -8,6 +8,7 @@ export interface KonvaImageType{
 }
 
 export interface KonvaElementType extends KonvaImageType {
+  elementId: string
   isSelected?: boolean;
   onSelect?: () => void;
   onChange?: (props: KonvaElementType) => void;

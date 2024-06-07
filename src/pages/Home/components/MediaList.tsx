@@ -17,28 +17,30 @@ import {
   KonvaImageType,
 } from "../../../app/types/KonvaTypes";
 import { getImageMetadata } from "../../../app/helpers/imageHelper";
+import { v4 as uuidv4 } from 'uuid';
 
 type MediaListProps = {
-  setSelectedMedia: (media: Array<KonvaImageType>) => void;
+  setSelectedMedia: (media: Array<KonvaElementType>) => void;
 };
 
 const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
   const [getContentsTrigger, getContentsResult] = useLazyGetContentsQuery();
-  const [selectedLayers, setSelectedLayers] = useState<Array<KonvaElementType>>(
+  const [localMediaList, setLocalMediaList] = useState<Array<KonvaElementType>>(
     []
   );
 
   const handleImageClick = async (imageUrl: string, contentId: string) => {
     let newLayers: KonvaElementType[] = [];
-    if (selectedLayers.some((s) => s.contentId == contentId)) {
+    if (localMediaList.some((s) => s.contentId == contentId)) {
       // remove
-      newLayers = [...selectedLayers].filter((f) => f.contentId != contentId);
+      newLayers = [...localMediaList].filter((f) => f.contentId != contentId);
     } else {
       //add
       const image = await getImageMetadata(imageUrl);
       newLayers = [
-        ...selectedLayers,
+        ...localMediaList,
         {
+          elementId: uuidv4(),
           contentId: contentId,
           src: image.src,
           x: 80,
@@ -49,12 +51,12 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
       ];
     }
 
-    setSelectedLayers(newLayers);
+    setLocalMediaList(newLayers);
   };
 
   useEffect(() => {
-    setSelectedMedia(selectedLayers);
-  }, [selectedLayers]);
+    setSelectedMedia(localMediaList);
+  }, [localMediaList]);
 
   useEffect(() => {
     getContentsTrigger();
@@ -84,7 +86,7 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
               <Badge
                 sx={{ color: teal[500] }}
                 badgeContent={
-                  selectedLayers.some((s) => s.contentId == item.contentId)
+                  localMediaList.some((s) => s.contentId == item.contentId)
                     ? 4
                     : undefined
                 }

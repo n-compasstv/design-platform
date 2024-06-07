@@ -1,60 +1,45 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { Image, Transformer } from "react-konva";
 import useImage from "use-image";
-import { KonvaElementType } from "../../../app/types/KonvaTypes";
+import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 
-const Element: FC<KonvaElementType> = ({
-  src,
-  x,
-  y,
-  isSelected,
-  onSelect,
-  onChange,
-  width,
-  height,
-  stroke,
-  strokeWidth,
-}) => {
-  const [img] = useImage(src ?? "");
-  const [position, setPosition] = useState<{
-    x: number | undefined;
-    y: number | undefined;
-  }>({
-    x: x,
-    y: y,
-  });
+const MediaElement: FC<KonvaElementType> = (element) => {
+  const [img] = useImage(element.src ?? "");
 
   const elementRef = useRef<any>();
   const trRef = useRef<any>();
 
   useEffect(() => {
-    if (isSelected) {
+    if (element.isSelected) {
       // we need to attach transformer manually
       trRef.current.nodes([elementRef.current]);
       trRef.current.getLayer().batchDraw();
     }
-  }, [isSelected]);
+  }, [element.isSelected]);
 
   return (
     <>
+      {element && element.type}
       <Image
         ref={elementRef}
         draggable
         image={img}
-        width={width}
-        height={height}
-        x={position.x}
-        y={position.y}
-        stroke={stroke}
-        strokeWidth={strokeWidth}
+        width={element.width}
+        height={element.height}
+        x={element.x}
+        y={element.y}
+        stroke={element.stroke}
+        strokeWidth={element.strokeWidth}
         onDragEnd={(e) => {
-          setPosition({
-            x: e.target.x(),
-            y: e.target.y(),
-          });
+          element.onChange &&
+            element.onChange({
+              ...element,
+              x: e.target.x(),
+              y: e.target.y(),
+            });
         }}
-        onClick={onSelect}
-        onTap={onSelect}
+        onClick={element.onSelect}
+        onTap={element.onSelect}
         onTransformEnd={(e) => {
           const node = elementRef.current;
           const scaleX = node.scaleX();
@@ -63,23 +48,21 @@ const Element: FC<KonvaElementType> = ({
           // we will reset it back
           node.scaleX(1);
           node.scaleY(1);
-          onChange &&
-            onChange({
-              elementId: node.elementId,
-              x: node.x(),
-              y: node.y(),
-              width: Math.max(5, node.width() * scaleX),
+          element.onChange &&
+            element.onChange({
+              ...element,
+              width: Math.max(20, node.width() * scaleX),
               height: Math.max(node.height() * scaleY),
             });
         }}
       />
-      {isSelected && (
+      {element.isSelected && (
         <Transformer
           ref={trRef}
           flipEnabled={false}
           boundBoxFunc={(oldBox, newBox) => {
             // limit resize
-            if (Math.abs(newBox.width) < 5 || Math.abs(newBox.height) < 5) {
+            if (Math.abs(newBox.width) < 20 || Math.abs(newBox.height) < 20) {
               return oldBox;
             }
             return newBox;
@@ -90,4 +73,4 @@ const Element: FC<KonvaElementType> = ({
   );
 };
 
-export default Element;
+export default MediaElement;

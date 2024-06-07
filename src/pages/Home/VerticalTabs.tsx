@@ -7,21 +7,23 @@ import { IoText } from "react-icons/io5";
 import SolidTabs from "../../common/components/SolidTabs";
 import { IconButton, Typography } from "@mui/material";
 import { useState } from "react";
-import MediaDialog from "./components/MediaDialog";
-import MediaList from "./components/MediaList";
+import MediaDialog from "./components/Media/MediaDialog";
+import ShapeDialog from "./components/Shapes/ShapeDialog";
 
 const VerticalTabs = () => {
   const [mediaIsOpen, setMediaIsOpen] = useState(false);
-  const [selectedTab, setSelectedTab] = useState<number>(-1);
+  const [shapesIsOpen, setShapesIsOpen] = useState(false);
 
   const tabs = [
     {
       label: "Media",
       icon: <FaPhotoFilm fontSize="large" />,
+      onClick: () => setMediaIsOpen(true),
     },
     {
       label: "Shapes",
       icon: <FaShapes fontSize="large" />,
+      onClick: () => setShapesIsOpen(true),
     },
     {
       label: "Dataset",
@@ -67,10 +69,7 @@ const VerticalTabs = () => {
                 borderBottom:
                   index < tabs.length - 1 ? "1px solid #ededed" : "",
               }}
-              onClick={() => {
-                setSelectedTab(index);
-                setMediaIsOpen(true);
-              }}
+              onClick={tab.onClick}
             >
               <Box>
                 <Box>{tab.icon}</Box>
@@ -82,11 +81,18 @@ const VerticalTabs = () => {
           ))}
         </SolidTabs>
       </Box>
-      
+
       <MediaDialog
         open={mediaIsOpen}
         handleClose={() => {
           setMediaIsOpen(false);
+        }}
+      />
+
+      <ShapeDialog
+        open={shapesIsOpen}
+        handleClose={() => {
+          setShapesIsOpen(false);
         }}
       />
     </Box>

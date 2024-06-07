@@ -8,16 +8,12 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import { useLazyGetContentsQuery } from "../../../app/services/api/endpoints/tier1/images";
+import { useLazyGetContentsQuery } from "../../../../app/services/api/endpoints/tier1/images";
 import { FC, useEffect, useState } from "react";
 import { blueGrey, teal } from "@mui/material/colors";
-import { useAppSelector } from "../../../app/hooks/useStore";
-import {
-  KonvaElementType,
-  KonvaImageType,
-} from "../../../app/types/KonvaTypes";
-import { getImageMetadata } from "../../../app/helpers/imageHelper";
-import { v4 as uuidv4 } from 'uuid';
+import { KonvaElementType } from "../../../../app/types/KonvaTypes";
+import { getImageMetadata } from "../../../../app/helpers/imageHelper";
+import { v4 as uuidv4 } from "uuid";
 
 type MediaListProps = {
   setSelectedMedia: (media: Array<KonvaElementType>) => void;
@@ -47,6 +43,7 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
           y: 80,
           width: image.width,
           height: image.height,
+          type: "media",
         },
       ];
     }

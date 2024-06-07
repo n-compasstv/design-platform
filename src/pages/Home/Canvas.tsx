@@ -1,12 +1,13 @@
-import { DragEvent, FC, createRef, useEffect, useRef, useState } from "react";
-import { Stage, Layer, Image, Transformer } from "react-konva";
+import { FC, createRef } from "react";
+import { Stage, Layer } from "react-konva";
 import Konva from "konva";
-import useImage from "use-image";
-import { KonvaElementType, KonvaImageType } from "../../app/types/KonvaTypes";
-import { Box, ImageList, ImageListItem, Stack } from "@mui/material";
-import Element from "./components/Element";
+import { KonvaElementType } from "../../app/types/KonvaTypes";
+import { Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks/useStore";
 import { setLayers, setSelectedLayer } from "../../app/slices/layerSlice";
+import MediaElement from "./components/Media/MediaElement";
+import CircleElement from "./components/Shapes/CircleElement";
+import RectElement from "./components/Shapes/RectElement";
 
 type CanvasProps = {
   elements: Array<KonvaElementType>;
@@ -29,29 +30,98 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
       >
         <Layer>
           {elements.map((element, index) => {
-            return (
-              <Element
-                elementId={element.elementId}
-                width={element.width}
-                height={element.height}
-                key={element.src}
-                src={element.src}
-                x={element.x}
-                y={element.y}
-                isSelected={element.elementId == selectedLayer?.elementId}
-                onChange={(newElement) => {
-                  const newLayers = layers.slice();
-                  const currentLayer = {
-                    ...newLayers[index],
-                    width: newElement.width,
-                    height: newElement.height,
-                  };
-                  newLayers[index] = currentLayer;
-                  dispatch(setLayers(newLayers));
-                }}
-                onSelect={() => dispatch(setSelectedLayer(element))}
-              />
-            );
+            let finalElement = <></>;
+            switch (element.type?.toLowerCase()) {
+              case "media":
+                finalElement = (
+                  <MediaElement
+                    elementId={element.elementId}
+                    width={element.width}
+                    height={element.height}
+                    key={element.src}
+                    src={element.src}
+                    x={element.x}
+                    y={element.y}
+                    isSelected={element.elementId == selectedLayer?.elementId}
+                    onChange={(newElement) => {
+                      const newLayers = layers.slice();
+                      const currentLayer = {
+                        ...newLayers[index],
+                        width: newElement.width,
+                        height: newElement.height,
+                        x: newElement.x,
+                        y: newElement.y,
+                      };
+                      newLayers[index] = currentLayer;
+                      dispatch(setLayers(newLayers));
+                    }}
+                    onSelect={() => dispatch(setSelectedLayer(element))}
+                  />
+                );
+                break;
+
+              case "circle":
+                finalElement = (
+                  <CircleElement
+                    elementId={element.elementId}
+                    radius={element.radius}
+                    width={element.width}
+                    height={element.height}
+                    key={element.src}
+                    src={element.src}
+                    fill={element.fill}
+                    x={element.x}
+                    y={element.y}
+                    isSelected={element.elementId == selectedLayer?.elementId}
+                    onChange={(newElement) => {
+                      const newLayers = layers.slice();
+                      const currentLayer = {
+                        ...newLayers[index],
+                        width: newElement.width,
+                        height: newElement.height,
+                        x: newElement.x,
+                        y: newElement.y,
+                      };
+                      newLayers[index] = currentLayer;
+                      dispatch(setLayers(newLayers));
+                    }}
+                    onSelect={() => dispatch(setSelectedLayer(element))}
+                  />
+                );
+                break;
+              case "rectangle":
+                finalElement = (
+                  <RectElement
+                    elementId={element.elementId}
+                    width={element.width}
+                    height={element.height}
+                    key={element.src}
+                    src={element.src}
+                    fill={element.fill}
+                    x={element.x}
+                    y={element.y}
+                    isSelected={element.elementId == selectedLayer?.elementId}
+                    onChange={(newElement) => {
+                      const newLayers = layers.slice();
+                      const currentLayer = {
+                        ...newLayers[index],
+                        width: newElement.width,
+                        height: newElement.height,
+                        x: newElement.x,
+                        y: newElement.y,
+                      };
+                      newLayers[index] = currentLayer;
+                      dispatch(setLayers(newLayers));
+                    }}
+                    onSelect={() => dispatch(setSelectedLayer(element))}
+                  />
+                );
+                break;
+
+              default:
+                finalElement = <></>;
+            }
+            return finalElement;
           })}
         </Layer>
       </Stage>

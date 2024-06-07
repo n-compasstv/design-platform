@@ -3,36 +3,30 @@ import Button from "@mui/material/Button";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Typography } from "@mui/material";
-import MediaList from "./MediaList";
-import {
-  KonvaElementType,
-  KonvaImageType,
-} from "../../../app/types/KonvaTypes";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks/useStore";
-import { setLayers, setSelectedLayer } from "../../../app/slices/layerSlice";
+import { KonvaElementType } from "../../../../app/types/KonvaTypes";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
+import { setLayers, setSelectedLayer } from "../../../../app/slices/layerSlice";
+import ShapeList from "./ShapeList";
 
-type MediaDialogProps = {
+type ShapeDialogProps = {
   open: boolean;
   handleClose: () => void;
 };
 
-const MediaDialog: FC<MediaDialogProps> = ({ open, handleClose }) => {
+const ShapeDialog: FC<ShapeDialogProps> = ({ open, handleClose }) => {
   const [selectedMedia, setSelectedMedia] = useState<Array<KonvaElementType>>(
     []
   );
   const dispatch = useAppDispatch();
   const { layers } = useAppSelector((u) => u.layer);
 
-  const handleClickSubmit = () => {
+  const handleShapeClick = () => {
     if (selectedMedia.length > 0) {
       const allLayers = [...layers, ...selectedMedia];
       dispatch(setLayers(allLayers));
-      dispatch(
-        setSelectedLayer(selectedMedia[selectedMedia.length - 1])
-      );
+      dispatch(setSelectedLayer(selectedMedia[selectedMedia.length - 1]));
     }
     handleClose();
   };
@@ -40,26 +34,18 @@ const MediaDialog: FC<MediaDialogProps> = ({ open, handleClose }) => {
   return (
     <Dialog
       fullWidth
-      maxWidth="lg"
+      maxWidth="sm"
       open={open}
       onClose={handleClose}
       scroll="paper"
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
     >
-      <DialogTitle id="scroll-dialog-title">
-        Media Library
-        <Typography>
-          <small>Select one or more asset to include in your project.</small>
-        </Typography>
-      </DialogTitle>
+      <DialogTitle id="scroll-dialog-title">Select Shape</DialogTitle>
       <DialogContent dividers={true}>
-        <MediaList setSelectedMedia={setSelectedMedia} />
+        <ShapeList />
       </DialogContent>
       <DialogActions sx={{ justifyContent: "start", p: 2 }}>
-        <Button variant="contained" color="primary" onClick={handleClickSubmit}>
-          Add to Project
-        </Button>
         <Button variant="outlined" onClick={handleClose}>
           Close
         </Button>
@@ -68,4 +54,4 @@ const MediaDialog: FC<MediaDialogProps> = ({ open, handleClose }) => {
   );
 };
 
-export default MediaDialog;
+export default ShapeDialog;

@@ -1,14 +1,14 @@
 import Konva from "konva";
 
-export interface KonvaImageType{
-  contentId?: string
-  src?: string;
-  x?: number;
-  y?: number;
+export interface KonvaElementBaseType{
+  elementId: string
+  x: number;
+  y: number;
 }
 
-export interface KonvaElementType extends KonvaImageType {
-  elementId: string
+export interface KonvaElementType extends KonvaElementBaseType {
+  contentId?: string
+  src?: string;
   isSelected?: boolean;
   onSelect?: () => void;
   onChange?: (props: KonvaElementType) => void;
@@ -17,4 +17,7 @@ export interface KonvaElementType extends KonvaImageType {
   height?: number;
   stroke?: string;
   strokeWidth?: number;
+  //circle
+  radius?: number;
+  fill?: string;
 }

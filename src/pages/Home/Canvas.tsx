@@ -11,11 +11,7 @@ import RectElement from "./components/Shapes/RectElement";
 import TriangleElement from "./components/Shapes/TriangleElement";
 import TextElement from "./components/Text/TextElement";
 
-type CanvasProps = {
-  elements: Array<KonvaElementType>;
-};
-
-const Canvas: FC<CanvasProps> = ({ elements }) => {
+const Canvas = () => {
   const stageRef = createRef<Konva.Stage>();
   const dispatch = useAppDispatch();
   const { layers, selectedLayer } = useAppSelector((u) => u.layer);
@@ -27,6 +23,8 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
       dispatch(setSelectedLayer(undefined));
     }
   };
+
+  console.log({layers})
 
   return (
     <Box p={5}>
@@ -42,7 +40,7 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
         onTouchStart={checkDeselect}
       >
         <Layer>
-          {elements.map((element, index) => {
+          {layers.map((element, index) => {
             let finalElement = <></>;
             switch (element.type?.toLowerCase()) {
               case "media":
@@ -51,7 +49,7 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
                     elementId={element.elementId}
                     width={element.width}
                     height={element.height}
-                    key={element.src}
+                    key={element.elementId}
                     src={element.src}
                     x={element.x}
                     y={element.y}
@@ -80,7 +78,7 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
                     radius={element.radius}
                     width={element.width}
                     height={element.height}
-                    key={element.src}
+                    key={element.elementId}
                     src={element.src}
                     fill={element.fill}
                     x={element.x}
@@ -108,7 +106,7 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
                     elementId={element.elementId}
                     width={element.width}
                     height={element.height}
-                    key={element.src}
+                    key={element.elementId}
                     src={element.src}
                     fill={element.fill}
                     x={element.x}
@@ -139,7 +137,7 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
                     radius={element.radius}
                     width={element.width}
                     height={element.height}
-                    key={element.src}
+                    key={element.elementId}
                     src={element.src}
                     fill={element.fill}
                     x={element.x}
@@ -171,7 +169,7 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
                     fontSize={element.fontSize}
                     width={element.width}
                     height={element.height}
-                    key={element.src}
+                    key={element.elementId}
                     src={element.src}
                     fill={element.fill}
                     x={element.x}
@@ -185,7 +183,7 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
                         height: newElement.height,
                         x: newElement.x,
                         y: newElement.y,
-                        fontSize: newElement.fontSize
+                        fontSize: newElement.fontSize,
                       };
                       newLayers[index] = currentLayer;
                       dispatch(setLayers(newLayers));

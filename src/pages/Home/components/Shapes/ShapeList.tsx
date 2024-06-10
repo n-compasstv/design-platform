@@ -28,7 +28,6 @@ const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
       fill: "gray",
       type: shape.toLowerCase(),
       stroke: "gray",
-      strokeWidth: 3,
     };
     const allLayers = [...layers, newLayer];
     dispatch(setLayers(allLayers));

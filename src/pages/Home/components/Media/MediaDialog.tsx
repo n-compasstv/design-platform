@@ -27,7 +27,7 @@ const MediaDialog: FC<MediaDialogProps> = ({ isOpen, handleClose }) => {
 
   const handleClickSubmit = () => {
     if (selectedMedia.length > 0) {
-      const allLayers = [...layers, ...selectedMedia];
+      const allLayers = [...selectedMedia, ...layers, ];
       dispatch(setLayers(allLayers));
       dispatch(
         setSelectedLayer(selectedMedia[selectedMedia.length - 1])

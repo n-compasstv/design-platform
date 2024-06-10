@@ -43,7 +43,6 @@ const TextElement: FC<KonvaElementType> = (element) => {
           const node = elementRef.current;
           const scaleX = node.scaleX();
           const scaleY = node.scaleY();
-          console.log(node.fontSize())
           // we will reset it back
           node.scaleX(1);
           node.scaleY(1);

@@ -29,11 +29,29 @@ const Layers = () => {
   const getLayerContent = (layer: KonvaElementType) => {
     var content = <></>;
     if (layer.type == "media") {
-      content = <>{`media-${layer.src}`}</>;
+      content = (
+        <Box>
+          <Typography noWrap sx={{ maxWidth: "150px" }}>
+            <small>{`media-${layer.src}`}</small>
+          </Typography>
+        </Box>
+      );
     } else if (layer.type == "text") {
-      content = <>{`text-${layer.text}-${layer.elementId}`}</>;
-    } else {
-      content = <>{`shape-${layer.elementId}`}</>;
+      content = (
+        <Box>
+          <Typography noWrap sx={{ maxWidth: "150px" }}>
+            <small>{`text-${layer.text}-${layer.elementId}`}</small>
+          </Typography>
+        </Box>
+      );
+    } else if (["circle", "rectangle", "triangle"].includes(layer.type || "")) {
+      content = (
+        <Box>
+          <Typography noWrap sx={{ maxWidth: "150px" }}>
+            <small>{`shape-${layer.elementId}`}</small>
+          </Typography>
+        </Box>
+      );
     }
     return content;
   };
@@ -42,11 +60,7 @@ const Layers = () => {
     const draggablesList = layers.map((m, index) => {
       const draggableLayer: DraggableItemType = {
         id: m.elementId,
-        content: (
-          <Typography noWrap width="250px">
-            <small>{index}</small> {getLayerContent(m)}
-          </Typography>
-        ),
+        content: <Box>{getLayerContent(m)}</Box>,
       };
       return draggableLayer;
     });
@@ -62,8 +76,9 @@ const Layers = () => {
       source.index,
       destination.index
     );
-    const orderedLayers = reorder(layers, source.index, destination.index);
     setDraggableLayers(orderedDraggableLayers);
+
+    const orderedLayers = reorder(layers, source.index, destination.index);
     dispatch(setLayers(orderedLayers));
   };
 

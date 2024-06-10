@@ -9,7 +9,7 @@ frontend:
             commands:
                 - node -v
                 - npm install
-                - npm run build_feature
+                - npm run build:feature
     artifacts:
         baseDirectory: build
         files:

@@ -8,15 +8,14 @@ import { Typography } from "@mui/material";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
 import { setLayers, setSelectedLayer } from "../../../../app/slices/layerSlice";
-import ShapeList from "./ShapeList";
+import TextList from "./TextList";
 
 type ShapeDialogProps = {
   isOpen: boolean;
   handleClose: () => void;
 };
 
-const ShapeDialog: FC<ShapeDialogProps> = ({ isOpen, handleClose }) => {
-
+const TextDialog: FC<ShapeDialogProps> = ({ isOpen, handleClose }) => {
   return (
     <Dialog
       fullWidth
@@ -27,9 +26,9 @@ const ShapeDialog: FC<ShapeDialogProps> = ({ isOpen, handleClose }) => {
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
     >
-      <DialogTitle id="scroll-dialog-title">Select Shape</DialogTitle>
+      <DialogTitle id="scroll-dialog-title">Select Text</DialogTitle>
       <DialogContent dividers={true}>
-        <ShapeList onCloseDialog={handleClose}/>
+        <TextList onCloseDialog={handleClose} />
       </DialogContent>
       <DialogActions sx={{ justifyContent: "start", p: 2 }}>
         <Button variant="outlined" onClick={handleClose}>
@@ -40,4 +39,4 @@ const ShapeDialog: FC<ShapeDialogProps> = ({ isOpen, handleClose }) => {
   );
 };
 
-export default ShapeDialog;
+export default TextDialog;

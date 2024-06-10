@@ -14,11 +14,11 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
 import { setLayers, setSelectedLayer } from "../../../../app/slices/layerSlice";
 
 type MediaDialogProps = {
-  open: boolean;
+  isOpen: boolean;
   handleClose: () => void;
 };
 
-const MediaDialog: FC<MediaDialogProps> = ({ open, handleClose }) => {
+const MediaDialog: FC<MediaDialogProps> = ({ isOpen, handleClose }) => {
   const [selectedMedia, setSelectedMedia] = useState<Array<KonvaElementType>>(
     []
   );
@@ -40,7 +40,7 @@ const MediaDialog: FC<MediaDialogProps> = ({ open, handleClose }) => {
     <Dialog
       fullWidth
       maxWidth="lg"
-      open={open}
+      open={isOpen}
       onClose={handleClose}
       scroll="paper"
       aria-labelledby="scroll-dialog-title"

@@ -9,6 +9,7 @@ import MediaElement from "./components/Media/MediaElement";
 import CircleElement from "./components/Shapes/CircleElement";
 import RectElement from "./components/Shapes/RectElement";
 import TriangleElement from "./components/Shapes/TriangleElement";
+import TextElement from "./components/Text/TextElement";
 
 type CanvasProps = {
   elements: Array<KonvaElementType>;
@@ -130,36 +131,69 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
                 );
                 break;
 
-                case "triangle":
-                  finalElement = (
-                    <TriangleElement
-                      elementId={element.elementId}
-                      sides={element.sides}
-                      radius={element.radius}
-                      width={element.width}
-                      height={element.height}
-                      key={element.src}
-                      src={element.src}
-                      fill={element.fill}
-                      x={element.x}
-                      y={element.y}
-                      isSelected={element.elementId == selectedLayer?.elementId}
-                      onChange={(newElement) => {
-                        const newLayers = layers.slice();
-                        const currentLayer = {
-                          ...newLayers[index],
-                          width: newElement.width,
-                          height: newElement.height,
-                          x: newElement.x,
-                          y: newElement.y,
-                        };
-                        newLayers[index] = currentLayer;
-                        dispatch(setLayers(newLayers));
-                      }}
-                      onSelect={() => dispatch(setSelectedLayer(element))}
-                    />
-                  );
-                  break;
+              case "triangle":
+                finalElement = (
+                  <TriangleElement
+                    elementId={element.elementId}
+                    sides={element.sides}
+                    radius={element.radius}
+                    width={element.width}
+                    height={element.height}
+                    key={element.src}
+                    src={element.src}
+                    fill={element.fill}
+                    x={element.x}
+                    y={element.y}
+                    isSelected={element.elementId == selectedLayer?.elementId}
+                    onChange={(newElement) => {
+                      const newLayers = layers.slice();
+                      const currentLayer = {
+                        ...newLayers[index],
+                        width: newElement.width,
+                        height: newElement.height,
+                        x: newElement.x,
+                        y: newElement.y,
+                      };
+                      newLayers[index] = currentLayer;
+                      dispatch(setLayers(newLayers));
+                    }}
+                    onSelect={() => dispatch(setSelectedLayer(element))}
+                  />
+                );
+                break;
+
+              case "text":
+                finalElement = (
+                  <TextElement
+                    elementId={element.elementId}
+                    text={element.text}
+                    fontFamily={element.fontFamily}
+                    fontSize={element.fontSize}
+                    width={element.width}
+                    height={element.height}
+                    key={element.src}
+                    src={element.src}
+                    fill={element.fill}
+                    x={element.x}
+                    y={element.y}
+                    isSelected={element.elementId == selectedLayer?.elementId}
+                    onChange={(newElement) => {
+                      const newLayers = layers.slice();
+                      const currentLayer = {
+                        ...newLayers[index],
+                        width: newElement.width,
+                        height: newElement.height,
+                        x: newElement.x,
+                        y: newElement.y,
+                        fontSize: newElement.fontSize
+                      };
+                      newLayers[index] = currentLayer;
+                      dispatch(setLayers(newLayers));
+                    }}
+                    onSelect={() => dispatch(setSelectedLayer(element))}
+                  />
+                );
+                break;
 
               default:
                 finalElement = <></>;

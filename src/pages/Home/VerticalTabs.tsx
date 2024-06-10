@@ -9,10 +9,12 @@ import { IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 import MediaDialog from "./components/Media/MediaDialog";
 import ShapeDialog from "./components/Shapes/ShapeDialog";
+import TextDialog from "./components/Text/TextDialog";
 
 const VerticalTabs = () => {
   const [mediaIsOpen, setMediaIsOpen] = useState(false);
   const [shapesIsOpen, setShapesIsOpen] = useState(false);
+  const [textIsOpen, setTextIsOpen] = useState(false);
 
   const tabs = [
     {
@@ -28,6 +30,7 @@ const VerticalTabs = () => {
     {
       label: "Text",
       icon: <IoText fontSize="large" />,
+      onClick: () => setTextIsOpen(true),
     },
     {
       label: "Reload",
@@ -79,16 +82,23 @@ const VerticalTabs = () => {
       </Box>
 
       <MediaDialog
-        open={mediaIsOpen}
+        isOpen={mediaIsOpen}
         handleClose={() => {
           setMediaIsOpen(false);
         }}
       />
 
       <ShapeDialog
-        open={shapesIsOpen}
+        isOpen={shapesIsOpen}
         handleClose={() => {
           setShapesIsOpen(false);
+        }}
+      />
+
+      <TextDialog
+        isOpen={textIsOpen}
+        handleClose={() => {
+          setTextIsOpen(false);
         }}
       />
     </Box>

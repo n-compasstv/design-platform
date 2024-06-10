@@ -26,10 +26,6 @@ const VerticalTabs = () => {
       onClick: () => setShapesIsOpen(true),
     },
     {
-      label: "Dataset",
-      icon: <FaTableList fontSize="large" />,
-    },
-    {
       label: "Text",
       icon: <IoText fontSize="large" />,
     },

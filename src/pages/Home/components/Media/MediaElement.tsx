@@ -2,6 +2,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Image, Transformer } from "react-konva";
 import useImage from "use-image";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
+import Konva from "konva";
 
 const MediaElement: FC<KonvaElementType> = (element) => {
   const [img] = useImage(element.src ?? "");
@@ -23,6 +24,8 @@ const MediaElement: FC<KonvaElementType> = (element) => {
       <Image
         ref={elementRef}
         draggable
+        filters={[Konva.Filters.Blur]}
+        blurRadius={10}
         image={img}
         width={element.width}
         height={element.height}

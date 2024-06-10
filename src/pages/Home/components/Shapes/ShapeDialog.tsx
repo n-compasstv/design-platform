@@ -16,20 +16,6 @@ type ShapeDialogProps = {
 };
 
 const ShapeDialog: FC<ShapeDialogProps> = ({ open, handleClose }) => {
-  const [selectedMedia, setSelectedMedia] = useState<Array<KonvaElementType>>(
-    []
-  );
-  const dispatch = useAppDispatch();
-  const { layers } = useAppSelector((u) => u.layer);
-
-  const handleShapeClick = () => {
-    if (selectedMedia.length > 0) {
-      const allLayers = [...layers, ...selectedMedia];
-      dispatch(setLayers(allLayers));
-      dispatch(setSelectedLayer(selectedMedia[selectedMedia.length - 1]));
-    }
-    handleClose();
-  };
 
   return (
     <Dialog
@@ -43,7 +29,7 @@ const ShapeDialog: FC<ShapeDialogProps> = ({ open, handleClose }) => {
     >
       <DialogTitle id="scroll-dialog-title">Select Shape</DialogTitle>
       <DialogContent dividers={true}>
-        <ShapeList />
+        <ShapeList onCloseDialog={handleClose}/>
       </DialogContent>
       <DialogActions sx={{ justifyContent: "start", p: 2 }}>
         <Button variant="outlined" onClick={handleClose}>

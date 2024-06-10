@@ -19,7 +19,6 @@ const CircleElement: FC<KonvaElementType> = (element) => {
 
   return (
     <>
-      {element && element.type}
       <Circle
         ref={elementRef}
         radius={element.radius}

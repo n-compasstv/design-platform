@@ -14,6 +14,7 @@ import { blueGrey, teal } from "@mui/material/colors";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 import { getImageMetadata } from "../../../../app/helpers/imageHelper";
 import { v4 as uuidv4 } from "uuid";
+import { FaCheck } from "react-icons/fa";
 
 type MediaListProps = {
   setSelectedMedia: (media: Array<KonvaElementType>) => void;
@@ -71,36 +72,44 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
         : getContentsResult.data
       )?.map((item) =>
         item ? (
-          <Card
-            key={item.contentId}
-            sx={{ m: 1, maxHeight: 140, maxWidth: 140 }}
+          <Badge
+            sx={{
+              "& .MuiBadge-badge ": {
+                p: 0,
+                mt: "10px",
+                mr: "10px",
+              },
+            }}
+            badgeContent={
+              localMediaList.some((s) => s.contentId == item.contentId) ? (
+                <FaCheck />
+              ) : undefined
+            }
+            color="success"
           >
-            <CardActionArea
-              onClick={() =>
-                handleImageClick(item.fileStackUrl, item.contentId)
-              }
+            <Card
+              key={item.contentId}
+              sx={{ m: 1, maxHeight: 140, maxWidth: 140 }}
             >
-              <Badge
-                sx={{ color: teal[500] }}
-                badgeContent={
-                  localMediaList.some((s) => s.contentId == item.contentId)
-                    ? 4
-                    : undefined
+              <CardActionArea
+                onClick={() =>
+                  handleImageClick(item.fileStackUrl, item.contentId)
                 }
-              ></Badge>
-              <CardMedia
-                sx={{ height: 100, width: 140, backgroundSize: "contain" }}
-                component="img"
-                image={item.fileStackUrl}
-                title={item.fileName}
-              />
-              <CardContent sx={{ p: 1, bgcolor: blueGrey[50] }}>
-                <Typography noWrap>
-                  <small>{item.fileName}</small>
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+              >
+                <CardMedia
+                  sx={{ height: 100, width: 140, backgroundSize: "contain" }}
+                  component="img"
+                  image={item.fileStackUrl}
+                  title={item.fileName}
+                />
+                <CardContent sx={{ p: 1, bgcolor: blueGrey[50] }}>
+                  <Typography noWrap>
+                    <small>{item.fileName}</small>
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Badge>
         ) : (
           <Skeleton
             sx={{ m: 1 }}

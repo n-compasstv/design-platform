@@ -21,7 +21,7 @@ const theme = createTheme({
           textTransform: "capitalize",
         }),
       },
-    },
+    }
   },
 });
 

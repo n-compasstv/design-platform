@@ -5,8 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
 import { setLayers, setSelectedLayer } from "../../../../app/slices/layerSlice";
+import { FC } from "react";
 
-const ShapeList = () => {
+type ShapeListProps = {
+  onCloseDialog: () => void;
+};
+
+const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
   const dispatch = useAppDispatch();
   const { layers } = useAppSelector((u) => u.layer);
 
@@ -22,10 +27,13 @@ const ShapeList = () => {
       radius: 50,
       fill: "gray",
       type: shape.toLowerCase(),
+      stroke: "gray",
+      strokeWidth: 3,
     };
     const allLayers = [...layers, newLayer];
     dispatch(setLayers(allLayers));
     dispatch(setSelectedLayer(newLayer));
+    onCloseDialog();
   };
 
   return (

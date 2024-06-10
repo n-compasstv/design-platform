@@ -8,6 +8,7 @@ import { setLayers, setSelectedLayer } from "../../app/slices/layerSlice";
 import MediaElement from "./components/Media/MediaElement";
 import CircleElement from "./components/Shapes/CircleElement";
 import RectElement from "./components/Shapes/RectElement";
+import TriangleElement from "./components/Shapes/TriangleElement";
 
 type CanvasProps = {
   elements: Array<KonvaElementType>;
@@ -17,6 +18,15 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
   const stageRef = createRef<Konva.Stage>();
   const dispatch = useAppDispatch();
   const { layers, selectedLayer } = useAppSelector((u) => u.layer);
+
+  const checkDeselect = (e: any) => {
+    // deselect when clicked on empty area
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      dispatch(setSelectedLayer(undefined));
+    }
+  };
+
   return (
     <Box p={5}>
       <Stage
@@ -27,6 +37,8 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
         height={720}
         style={{ background: "#fff" }}
         ref={stageRef}
+        onMouseDown={checkDeselect}
+        onTouchStart={checkDeselect}
       >
         <Layer>
           {elements.map((element, index) => {
@@ -117,6 +129,37 @@ const Canvas: FC<CanvasProps> = ({ elements }) => {
                   />
                 );
                 break;
+
+                case "triangle":
+                  finalElement = (
+                    <TriangleElement
+                      elementId={element.elementId}
+                      sides={element.sides}
+                      radius={element.radius}
+                      width={element.width}
+                      height={element.height}
+                      key={element.src}
+                      src={element.src}
+                      fill={element.fill}
+                      x={element.x}
+                      y={element.y}
+                      isSelected={element.elementId == selectedLayer?.elementId}
+                      onChange={(newElement) => {
+                        const newLayers = layers.slice();
+                        const currentLayer = {
+                          ...newLayers[index],
+                          width: newElement.width,
+                          height: newElement.height,
+                          x: newElement.x,
+                          y: newElement.y,
+                        };
+                        newLayers[index] = currentLayer;
+                        dispatch(setLayers(newLayers));
+                      }}
+                      onSelect={() => dispatch(setSelectedLayer(element))}
+                    />
+                  );
+                  break;
 
               default:
                 finalElement = <></>;

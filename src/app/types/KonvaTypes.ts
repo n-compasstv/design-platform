@@ -20,4 +20,5 @@ export interface KonvaElementType extends KonvaElementBaseType {
   //circle
   radius?: number;
   fill?: string;
+  sides?: number;
 }

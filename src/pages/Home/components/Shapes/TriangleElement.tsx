@@ -1,9 +1,9 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { Circle, Rect, Transformer } from "react-konva";
+import { Circle, Rect, RegularPolygon, Transformer } from "react-konva";
 import useImage from "use-image";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 
-const RectElement: FC<KonvaElementType> = (element) => {
+const TriangleElement: FC<KonvaElementType> = (element) => {
   const elementRef = useRef<any>();
   const trRef = useRef<any>();
 
@@ -17,12 +17,14 @@ const RectElement: FC<KonvaElementType> = (element) => {
 
   return (
     <>
-      <Rect
+      <RegularPolygon
         ref={elementRef}
         draggable
         fill={element.fill}
         width={element.width}
         height={element.height}
+        radius={element.radius ?? 0}
+        sides={3}
         x={element.x}
         y={element.y}
         stroke={element.stroke}
@@ -70,4 +72,4 @@ const RectElement: FC<KonvaElementType> = (element) => {
   );
 };
 
-export default RectElement;
+export default TriangleElement;

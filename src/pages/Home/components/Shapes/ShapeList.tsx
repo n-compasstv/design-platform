@@ -28,7 +28,8 @@ const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
       radius: 100,
       fill: grey[400],
       type: shape.toLowerCase(),
-      stroke: grey[400],
+      stroke: "",
+      strokeWidth: 0
     };
     //insert new shape in the beginning of the array.
     const allLayers = [newLayer, ...layers];

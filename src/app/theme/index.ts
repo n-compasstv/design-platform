@@ -8,7 +8,7 @@ const theme = createTheme({
     },
     warning: {
       main: "#cc8521",
-    }
+    },
   },
   typography: {
     fontSize: 13,
@@ -17,11 +17,24 @@ const theme = createTheme({
   components: {
     MuiButton: {
       styleOverrides: {
-        root: ({ ownerState }) => ({
+        root: {
           textTransform: "capitalize",
-        }),
+        },
       },
-    }
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiInputBase-root": {
+            fontSize: "12px",
+          },
+          "& .MuiColorInput-Button": {
+              width: "18px",
+              height: "18px"
+            }
+        },
+      },
+    },
   },
 });
 

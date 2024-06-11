@@ -55,6 +55,8 @@ const Canvas = () => {
                     x={element.x}
                     y={element.y}
                     isSelected={element.elementId == selectedLayer?.elementId}
+                    stroke={element.stroke}
+                    strokeWidth={element.strokeWidth}
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {
@@ -85,6 +87,8 @@ const Canvas = () => {
                     x={element.x}
                     y={element.y}
                     isSelected={element.elementId == selectedLayer?.elementId}
+                    stroke={element.stroke}
+                    strokeWidth={element.strokeWidth}
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {
@@ -113,6 +117,8 @@ const Canvas = () => {
                     x={element.x}
                     y={element.y}
                     isSelected={element.elementId == selectedLayer?.elementId}
+                    stroke={element.stroke}
+                    strokeWidth={element.strokeWidth}
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {
@@ -144,6 +150,8 @@ const Canvas = () => {
                     x={element.x}
                     y={element.y}
                     isSelected={element.elementId == selectedLayer?.elementId}
+                    stroke={element.stroke}
+                    strokeWidth={element.strokeWidth}
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {

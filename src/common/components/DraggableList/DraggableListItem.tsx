@@ -2,7 +2,6 @@ import { FC } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { ListItem, ListItemIcon } from "@mui/material";
 import { MdDragIndicator } from "react-icons/md";
-import { orange } from "@mui/material/colors";
 
 export type Props = {
   id: string;
@@ -10,7 +9,7 @@ export type Props = {
   content: string | JSX.Element;
   isSelected: boolean;
   isLastItem?: boolean;
-  onClickItem?: (id: string) => void;
+  onClickItem?: (event: React.MouseEvent<HTMLElement>, id: string) => void;
 };
 
 const DraggableListItem: FC<Props> = ({
@@ -35,7 +34,7 @@ const DraggableListItem: FC<Props> = ({
             alignItems: "start",
             p: 0,
           }}
-          onClick={() => onClickItem && onClickItem(id)}
+          onClick={(event) => onClickItem && onClickItem(event, id)}
           endIcon
         >
           {content}

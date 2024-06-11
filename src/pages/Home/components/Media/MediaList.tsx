@@ -45,6 +45,7 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
           width: image.width,
           height: image.height,
           type: "media",
+          strokeWidth: 0,
         },
       ];
     }

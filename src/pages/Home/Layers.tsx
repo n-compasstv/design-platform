@@ -30,7 +30,7 @@ const Layers = () => {
     var content = <></>;
     if (layer.type == "media") {
       content = (
-        <Box>
+        <Box sx={{ cursor: "pointer" }}>
           <Typography noWrap sx={{ maxWidth: "150px" }}>
             <small>{`media-${layer.src}`}</small>
           </Typography>
@@ -38,7 +38,7 @@ const Layers = () => {
       );
     } else if (layer.type == "text") {
       content = (
-        <Box>
+        <Box sx={{ cursor: "pointer" }}>
           <Typography noWrap sx={{ maxWidth: "150px" }}>
             <small>{`text-${layer.text}-${layer.elementId}`}</small>
           </Typography>
@@ -46,7 +46,7 @@ const Layers = () => {
       );
     } else if (["circle", "rectangle", "triangle"].includes(layer.type || "")) {
       content = (
-        <Box>
+        <Box sx={{ cursor: "pointer" }}>
           <Typography noWrap sx={{ maxWidth: "150px" }}>
             <small>{`shape-${layer.elementId}`}</small>
           </Typography>
@@ -55,17 +55,6 @@ const Layers = () => {
     }
     return content;
   };
-
-  useEffect(() => {
-    const draggablesList = layers.map((m, index) => {
-      const draggableLayer: DraggableItemType = {
-        id: m.elementId,
-        content: <Box>{getLayerContent(m)}</Box>,
-      };
-      return draggableLayer;
-    });
-    setDraggableLayers(draggablesList);
-  }, [layers.length]);
 
   const onDragEnd = ({ destination, source }: DropResult) => {
     // dropped outside the list
@@ -81,6 +70,17 @@ const Layers = () => {
     const orderedLayers = reorder(layers, source.index, destination.index);
     dispatch(setLayers(orderedLayers));
   };
+
+  useEffect(() => {
+    const draggablesList = layers.map((m, index) => {
+      const draggableLayer: DraggableItemType = {
+        id: m.elementId,
+        content: <Box>{getLayerContent(m)}</Box>,
+      };
+      return draggableLayer;
+    });
+    setDraggableLayers(draggablesList);
+  }, [layers.length]);
 
   return (
     <Box height="100%" bgcolor="background.paper" position="sticky">

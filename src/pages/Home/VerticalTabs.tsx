@@ -10,11 +10,13 @@ import { useState } from "react";
 import MediaDialog from "./components/Media/MediaDialog";
 import ShapeDialog from "./components/Shapes/ShapeDialog";
 import TextDialog from "./components/Text/TextDialog";
+import { useNavigate } from "react-router-dom";
 
 const VerticalTabs = () => {
   const [mediaIsOpen, setMediaIsOpen] = useState(false);
   const [shapesIsOpen, setShapesIsOpen] = useState(false);
   const [textIsOpen, setTextIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const tabs = [
     {
@@ -35,6 +37,7 @@ const VerticalTabs = () => {
     {
       label: "Reload",
       icon: <TbReload fontSize="large" />,
+      onClick: () => navigate(0),
     },
   ];
 

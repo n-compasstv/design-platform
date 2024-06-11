@@ -27,7 +27,8 @@ const MediaDialog: FC<MediaDialogProps> = ({ isOpen, handleClose }) => {
 
   const handleClickSubmit = () => {
     if (selectedMedia.length > 0) {
-      const allLayers = [...selectedMedia, ...layers, ];
+      //insert new media in the beginning of the array.
+      const allLayers = [...selectedMedia.reverse(), ...layers, ];
       dispatch(setLayers(allLayers));
       dispatch(
         setSelectedLayer(selectedMedia[selectedMedia.length - 1])

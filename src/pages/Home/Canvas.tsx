@@ -40,7 +40,10 @@ const Canvas = () => {
         onTouchStart={checkDeselect}
       >
         <Layer>
-          {layers.map((element, index) => {
+          {layers.map((el, index) => {
+            //reverse the rendering so that the first element is in front of the canvas
+            const revIndex = layers.slice(index, layers.length - 1).length;
+            const element = layers[revIndex];
             let finalElement = <></>;
             switch (element.type?.toLowerCase()) {
               case "media":
@@ -57,13 +60,13 @@ const Canvas = () => {
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {
-                        ...newLayers[index],
+                        ...newLayers[revIndex],
                         width: newElement.width,
                         height: newElement.height,
                         x: newElement.x,
                         y: newElement.y,
                       };
-                      newLayers[index] = currentLayer;
+                      newLayers[revIndex] = currentLayer;
                       dispatch(setLayers(newLayers));
                     }}
                     onSelect={() => dispatch(setSelectedLayer(element))}
@@ -87,13 +90,13 @@ const Canvas = () => {
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {
-                        ...newLayers[index],
+                        ...newLayers[revIndex],
                         width: newElement.width,
                         height: newElement.height,
                         x: newElement.x,
                         y: newElement.y,
                       };
-                      newLayers[index] = currentLayer;
+                      newLayers[revIndex] = currentLayer;
                       dispatch(setLayers(newLayers));
                     }}
                     onSelect={() => dispatch(setSelectedLayer(element))}
@@ -115,13 +118,13 @@ const Canvas = () => {
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {
-                        ...newLayers[index],
+                        ...newLayers[revIndex],
                         width: newElement.width,
                         height: newElement.height,
                         x: newElement.x,
                         y: newElement.y,
                       };
-                      newLayers[index] = currentLayer;
+                      newLayers[revIndex] = currentLayer;
                       dispatch(setLayers(newLayers));
                     }}
                     onSelect={() => dispatch(setSelectedLayer(element))}
@@ -146,13 +149,13 @@ const Canvas = () => {
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {
-                        ...newLayers[index],
+                        ...newLayers[revIndex],
                         width: newElement.width,
                         height: newElement.height,
                         x: newElement.x,
                         y: newElement.y,
                       };
-                      newLayers[index] = currentLayer;
+                      newLayers[revIndex] = currentLayer;
                       dispatch(setLayers(newLayers));
                     }}
                     onSelect={() => dispatch(setSelectedLayer(element))}
@@ -178,14 +181,13 @@ const Canvas = () => {
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {
-                        ...newLayers[index],
+                        ...newLayers[revIndex],
                         width: newElement.width,
                         height: newElement.height,
                         x: newElement.x,
                         y: newElement.y,
-                        fontSize: newElement.fontSize,
                       };
-                      newLayers[index] = currentLayer;
+                      newLayers[revIndex] = currentLayer;
                       dispatch(setLayers(newLayers));
                     }}
                     onSelect={() => dispatch(setSelectedLayer(element))}

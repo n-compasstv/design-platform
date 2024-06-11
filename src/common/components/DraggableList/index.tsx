@@ -20,8 +20,6 @@ const DraggableList: FC<Props> = ({ items, onDragEnd }) => {
         {(provided) => (
           <List ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((item: DraggableItemType, index: number) => {
-              const revIndex = items.slice(index, items.length-1).length
-              const revItem = items[revIndex];
               return (
                 <DraggableListItem
                   id={item.id}

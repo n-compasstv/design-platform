@@ -6,6 +6,7 @@ import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
 import { setLayers, setSelectedLayer } from "../../../../app/slices/layerSlice";
 import { FC } from "react";
+import { grey } from "@mui/material/colors";
 
 type ShapeListProps = {
   onCloseDialog: () => void;
@@ -22,14 +23,15 @@ const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
       src: "",
       x: 80,
       y: 80,
-      width: 50,
-      height: 50,
-      radius: 50,
-      fill: "gray",
+      width: 100,
+      height: 100,
+      radius: 100,
+      fill: grey[400],
       type: shape.toLowerCase(),
-      stroke: "gray",
+      stroke: grey[400],
     };
-    const allLayers = [...layers, newLayer];
+    //insert new shape in the beginning of the array.
+    const allLayers = [newLayer, ...layers];
     dispatch(setLayers(allLayers));
     dispatch(setSelectedLayer(newLayer));
     onCloseDialog();

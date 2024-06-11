@@ -24,10 +24,11 @@ const TextList: FC<ShapeListProps> = ({ onCloseDialog }) => {
       y: 80,
       type: "text",
       text: text,
-      fontFamily: "Roboto",
-      fontSize: fontSize
+      fontFamily: "Arial",
+      fontSize: fontSize,
     };
-    const allLayers = [...layers, newLayer];
+    //insert new text in the beginning of the array.
+    const allLayers = [newLayer, ...layers];
     dispatch(setLayers(allLayers));
     dispatch(setSelectedLayer(newLayer));
     onCloseDialog();
@@ -59,11 +60,11 @@ const texts = [
   {
     name: "Heading",
     icon: <FaHeading />,
-    size: 40
+    size: 40,
   },
   {
     name: "Paragraph",
     icon: <FaParagraph />,
-    size: 20
+    size: 20,
   },
 ];

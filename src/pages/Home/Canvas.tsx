@@ -24,8 +24,6 @@ const Canvas = () => {
     }
   };
 
-  console.log({layers})
-
   return (
     <Box p={5}>
       <Stage

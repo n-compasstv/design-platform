@@ -11,14 +11,15 @@ import DraggableListItem from "./DraggableListItem";
 export type Props = {
   items: DraggableItemType[];
   onDragEnd: OnDragEndResponder;
+  onClickItem?: (id: string) => void;
 };
 
-const DraggableList: FC<Props> = ({ items, onDragEnd }) => {
+const DraggableList: FC<Props> = ({ items, onDragEnd, onClickItem }) => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable-list">
         {(provided) => (
-          <List ref={provided.innerRef} {...provided.droppableProps}>
+          <List ref={provided.innerRef} {...provided.droppableProps} sx={{py: 0}}>
             {items.map((item: DraggableItemType, index: number) => {
               return (
                 <DraggableListItem
@@ -27,6 +28,8 @@ const DraggableList: FC<Props> = ({ items, onDragEnd }) => {
                   key={item.id}
                   content={item.content}
                   isLastItem={index == items.length - 1}
+                  isSelected={item.isSelected}
+                  onClickItem={onClickItem}
                 />
               );
             })}

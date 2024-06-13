@@ -39,14 +39,36 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
 
   const handleStrokeWidthChange = (event: ChangeEvent<HTMLInputElement>) => {
     const index = layers.findIndex((f) => f.elementId == layer.elementId);
-    const width = +event.target.value ?? 0
+    const width = +event.target.value ?? 0;
     if (index > -1 && width > -1) {
       let newLayers = [...layers];
       newLayers[index] = { ...layer, strokeWidth: +width };
 
       dispatch(setLayers(newLayers));
     }
-  }
+  };
+
+  const handleFillChange = (color: string) => {
+    const index = layers.findIndex((f) => f.elementId == layer.elementId);
+
+    if (index > -1) {
+      let newLayers = [...layers];
+      newLayers[index] = { ...layer, fill: color };
+
+      dispatch(setLayers(newLayers));
+    }
+  };
+
+  const handleRadiusChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const index = layers.findIndex((f) => f.elementId == layer.elementId);
+    const radius = +event.target.value ?? 0;
+    if (index > -1 && radius > -1) {
+      let newLayers = [...layers];
+      newLayers[index] = { ...layer, radius: +radius };
+
+      dispatch(setLayers(newLayers));
+    }
+  };
 
   return (
     <Box sx={{ cursor: "pointer", width: "250px" }}>
@@ -93,28 +115,31 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                 value={layer.y}
               />
             </Stack>
-            <Stack direction="row" spacing={2}>
-              <TextField
-                label="Width"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="filled"
-                size="small"
-                value={layer.width}
-              />
-              <TextField
-                label="Height"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="filled"
-                size="small"
-                value={layer.height}
-              />
-            </Stack>
+            {["media", "rectangle", "triangle"].includes(layer.type || "") && (
+              <Stack direction="row" spacing={2}>
+                <TextField
+                  label="Width"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  size="small"
+                  value={layer.width}
+                />
+                <TextField
+                  label="Height"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  size="small"
+                  value={layer.height}
+                />
+              </Stack>
+            )}
+
             {["media", "circle", "rectangle", "triangle"].includes(
               layer.type || ""
             ) && (
@@ -140,6 +165,32 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                   size="small"
                   value={layer.strokeWidth}
                   onChange={handleStrokeWidthChange}
+                />
+              </Stack>
+            )}
+            {["circle", "rectangle", "triangle"].includes(layer.type || "") && (
+              <Stack direction="row" spacing={2}>
+                <MuiColorInput
+                  format="rgb"
+                  label="Fill"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  size="small"
+                  value={layer.fill || ""}
+                  onChange={handleFillChange}
+                />
+                <TextField
+                  label="Radius"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  size="small"
+                  value={layer.radius}
+                  onChange={handleRadiusChange}
                 />
               </Stack>
             )}

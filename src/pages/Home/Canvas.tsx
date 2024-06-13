@@ -114,6 +114,7 @@ const Canvas = () => {
                     key={element.elementId}
                     src={element.src}
                     fill={element.fill}
+                    radius={element.radius}
                     x={element.x}
                     y={element.y}
                     isSelected={element.elementId == selectedLayer?.elementId}

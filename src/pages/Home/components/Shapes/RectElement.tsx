@@ -27,6 +27,7 @@ const RectElement: FC<KonvaElementType> = (element) => {
         y={element.y}
         stroke={element.stroke}
         strokeWidth={element.strokeWidth}
+        cornerRadius={element.radius}
         onDragEnd={(e) => {
           element.onChange &&
             element.onChange({

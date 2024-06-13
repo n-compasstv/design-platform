@@ -30,4 +30,6 @@ export interface KonvaElementType extends KonvaElementBaseType {
   fontStyle?: number;
   lineHeight?: number;
   letterSpacing?: number;
+  isTitle?: boolean;
+  isTeaser?: boolean;
 }

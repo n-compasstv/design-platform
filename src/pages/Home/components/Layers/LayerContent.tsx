@@ -9,6 +9,9 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  Checkbox,
+  FormControlLabel,
+  Tooltip,
 } from "@mui/material";
 import { grey, orange, red } from "@mui/material/colors";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
@@ -21,7 +24,7 @@ import {
   textAlignList,
 } from "../../../../common/constants/text";
 import { MdOutlineDeleteForever } from "react-icons/md";
-import { FaCopy } from "react-icons/fa6";
+import { FaCopy, FaStar } from "react-icons/fa6";
 import DeleteLayerDialog from "./DeleteLayerDialog";
 
 type LayerContentProps = {
@@ -111,6 +114,56 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
     }
   };
 
+  const handleSetAsTitleCheckboxChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const index = layers.findIndex((f) => f.elementId == layer.elementId);
+
+    const isChecked = event.target.checked;
+    if (index > -1) {
+      let newLayers = [...layers];
+
+      for (let i = 0; i < newLayers.length; i++) {
+        if (i == index) {
+          console.log(index, isChecked);
+          newLayers[i] = { ...newLayers[i], isTitle: isChecked };
+        } else {
+          newLayers[i] = {
+            ...newLayers[i],
+            isTitle: newLayers[i].isTitle == undefined ? undefined : false,
+          };
+        }
+      }
+
+      dispatch(setLayers(newLayers));
+    }
+  };
+
+  const handleSetAsTeaserCheckboxChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const index = layers.findIndex((f) => f.elementId == layer.elementId);
+
+    const isChecked = event.target.checked;
+    if (index > -1) {
+      let newLayers = [...layers];
+
+      for (let i = 0; i < newLayers.length; i++) {
+        if (i == index) {
+          console.log(index, isChecked);
+          newLayers[i] = { ...newLayers[i], isTeaser: isChecked };
+        } else {
+          newLayers[i] = {
+            ...newLayers[i],
+            isTeaser: newLayers[i].isTeaser == undefined ? undefined : false,
+          };
+        }
+      }
+
+      dispatch(setLayers(newLayers));
+    }
+  };
+
   const handleNumericValueChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     field: keyof KonvaElementType,
@@ -147,9 +200,20 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Typography noWrap sx={{ maxWidth: "150px" }}>
-            <small className="collapse-trigger">{header}</small>
-          </Typography>
+          <Stack direction="row" alignItems="center">
+            <Typography
+              className="collapse-trigger"
+              noWrap
+              sx={{ maxWidth: "150px", alignItems: "center" }}
+            >
+              <small className="collapse-trigger">{header}</small>
+            </Typography>
+            {(layer.isTitle || layer.isTeaser) && (
+              <Tooltip title="Featured title">
+                <FaStar color={orange[600]} fontSize={12} />
+              </Tooltip>
+            )}
+          </Stack>
           <Stack direction="row" spacing={1} alignItems="center">
             <FaCopy color={grey[700]} fontSize={14} />
             <MdOutlineDeleteForever
@@ -408,7 +472,7 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
             {layer.type == "triangle" && (
               <Stack direction="row" spacing={2}>
                 <TextField
-                  sx={{maxWidth: 126}}
+                  sx={{ maxWidth: 126 }}
                   label="sides"
                   type="number"
                   InputLabelProps={{
@@ -423,6 +487,32 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                 />
                 <></>
               </Stack>
+            )}
+            {layer.type == "text" && layer.isTitle != undefined && (
+              <FormControlLabel
+                sx={{ "& .MuiTypography-root": { fontSize: "12px" } }}
+                control={
+                  <Checkbox
+                    size="small"
+                    checked={layer.isTitle}
+                    onChange={handleSetAsTitleCheckboxChange}
+                  />
+                }
+                label="Set as Title"
+              />
+            )}
+            {layer.type == "text" && layer.isTeaser != undefined && (
+              <FormControlLabel
+                sx={{ "& .MuiTypography-root": { fontSize: "12px" } }}
+                control={
+                  <Checkbox
+                    size="small"
+                    checked={layer.isTeaser}
+                    onChange={handleSetAsTeaserCheckboxChange}
+                  />
+                }
+                label="Set as Teaser"
+              />
             )}
           </Stack>
         </Collapse>

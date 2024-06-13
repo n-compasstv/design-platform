@@ -28,7 +28,8 @@ const TextList: FC<ShapeListProps> = ({ onCloseDialog }) => {
       align: "center",
       lineHeight: 1,
       letterSpacing: 0,
-      fontStyle: 500,
+      fontStyle: 100,
+      fill: "rgb(0,0,0)"
     };
     //insert new text in the beginning of the array.
     const allLayers = [newLayer, ...layers];

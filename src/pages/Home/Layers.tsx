@@ -1,20 +1,9 @@
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
-  Collapse,
-  Drawer,
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
-  Stack,
-  TextField,
-  Toolbar,
-  Typography,
 } from "@mui/material";
 import { FaLayerGroup } from "react-icons/fa";
 import DraggableList from "../../common/components/DraggableList";
@@ -24,8 +13,6 @@ import { DropResult } from "react-beautiful-dnd";
 import { reorder } from "../../app/helpers/array";
 import { useEffect, useState } from "react";
 import { setLayers, setSelectedLayer } from "../../app/slices/layerSlice";
-import { KonvaElementType } from "../../app/types/KonvaTypes";
-import { orange } from "@mui/material/colors";
 import LayerContent from "./components/LayerContent";
 
 const Layers = () => {
@@ -61,6 +48,7 @@ const Layers = () => {
     }
   };
 
+  //if ever there are changes in the canvas. Layer list should be updated.
   useEffect(() => {
     const draggablesList = layers.map((m, index) => {
       const draggableLayer: DraggableItemType = {
@@ -76,7 +64,7 @@ const Layers = () => {
   return (
     <Box height="100%" bgcolor="background.paper" position="sticky">
       <List
-        sx={{ width: "250px", py: 0 }}
+        sx={{ width: "300px", py: 0 }}
         component="nav"
         aria-labelledby="layers"
       >

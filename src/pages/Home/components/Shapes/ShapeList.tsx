@@ -27,7 +27,7 @@ const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
       width: 100,
       height: 100,
       radius: ["circle", "triangle"].includes(shape.toLowerCase()) ? 50 : 0,
-      fill: grey[400],
+      fill: "rgb(189,189,189)",
       type: shape.toLowerCase(),
       stroke: "",
       strokeWidth: 0,

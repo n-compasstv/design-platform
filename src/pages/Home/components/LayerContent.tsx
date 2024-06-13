@@ -123,7 +123,7 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
   };
 
   return (
-    <Box sx={{ cursor: "pointer", width: "250px" }}>
+    <Box sx={{ cursor: "pointer", width: "300px" }}>
       <Box
         className="collapse-trigger"
         sx={{

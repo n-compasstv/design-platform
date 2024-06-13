@@ -1,6 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { Circle, Rect, RegularPolygon, Transformer } from "react-konva";
-import useImage from "use-image";
+import { RegularPolygon, Transformer } from "react-konva";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 
 const TriangleElement: FC<KonvaElementType> = (element) => {

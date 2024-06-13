@@ -26,5 +26,8 @@ export interface KonvaElementType extends KonvaElementBaseType {
   fontSize?: number;
   fontFamily?: string;
   text?: string;
-  aling?: string;
+  align?: string;
+  fontStyle?: number;
+  lineHeight?: number;
+  letterSpacing?: number;
 }

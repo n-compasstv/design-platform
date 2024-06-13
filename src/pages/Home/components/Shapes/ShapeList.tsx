@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Icon } from "@mui/material";
 import { FaCircle, FaSquare } from "react-icons/fa";
 import { BsFillTriangleFill } from "react-icons/bs";
 import { v4 as uuidv4 } from "uuid";
@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
 import { setLayers, setSelectedLayer } from "../../../../app/slices/layerSlice";
 import { FC } from "react";
 import { grey } from "@mui/material/colors";
+import { shapeElements } from "../../../../common/constants/shape";
 
 type ShapeListProps = {
   onCloseDialog: () => void;
@@ -29,7 +30,7 @@ const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
       fill: grey[400],
       type: shape.toLowerCase(),
       stroke: "",
-      strokeWidth: 0
+      strokeWidth: 0,
     };
     //insert new shape in the beginning of the array.
     const allLayers = [newLayer, ...layers];
@@ -40,13 +41,13 @@ const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
 
   return (
     <Grid container justifyContent="space-between" alignItems="stretch">
-      {shapes.map((shape, index) => (
+      {shapeElements.map((shape, index) => (
         <Grid item>
           <Button
             key={index}
             variant="contained"
             color="inherit"
-            startIcon={shape.icon}
+            startIcon={<Icon component={shape.icon} />}
             sx={{ minWidth: 180, justifyContent: "start", px: 3, py: 2 }}
             onClick={() => handleShapeClick(shape.name)}
           >
@@ -59,18 +60,3 @@ const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
 };
 
 export default ShapeList;
-
-const shapes = [
-  {
-    name: "Circle",
-    icon: <FaCircle />,
-  },
-  {
-    name: "Rectangle",
-    icon: <FaSquare />,
-  },
-  {
-    name: "Triangle",
-    icon: <BsFillTriangleFill />,
-  },
-];

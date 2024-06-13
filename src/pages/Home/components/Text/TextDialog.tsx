@@ -4,10 +4,6 @@ import Dialog, { DialogProps } from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Typography } from "@mui/material";
-import { KonvaElementType } from "../../../../app/types/KonvaTypes";
-import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
-import { setLayers, setSelectedLayer } from "../../../../app/slices/layerSlice";
 import TextList from "./TextList";
 
 type ShapeDialogProps = {

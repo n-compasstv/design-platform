@@ -1,6 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-import { Circle, Rect, Transformer } from "react-konva";
-import useImage from "use-image";
+import { Rect, Transformer } from "react-konva";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 
 const RectElement: FC<KonvaElementType> = (element) => {

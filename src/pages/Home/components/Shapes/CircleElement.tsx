@@ -1,10 +1,8 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef } from "react";
 import { Circle, Transformer } from "react-konva";
-import useImage from "use-image";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 
 const CircleElement: FC<KonvaElementType> = (element) => {
-  const [img] = useImage(element.src ?? "");
 
   const elementRef = useRef<any>();
   const trRef = useRef<any>();

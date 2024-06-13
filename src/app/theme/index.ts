@@ -35,6 +35,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          fontSize: "12px"
+        },
+      },
+    },
   },
 });
 

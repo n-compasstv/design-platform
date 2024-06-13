@@ -1,7 +1,6 @@
-import { FC, createRef } from "react";
+import { createRef } from "react";
 import { Stage, Layer } from "react-konva";
 import Konva from "konva";
-import { KonvaElementType } from "../../app/types/KonvaTypes";
 import { Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks/useStore";
 import { setLayers, setSelectedLayer } from "../../app/slices/layerSlice";
@@ -17,7 +16,6 @@ const Canvas = () => {
   const { layers, selectedLayer } = useAppSelector((u) => u.layer);
 
   const checkDeselect = (e: any) => {
-    // deselect when clicked on empty area
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
       dispatch(setSelectedLayer(undefined));
@@ -28,8 +26,6 @@ const Canvas = () => {
     <Box p={5}>
       <Stage
         className="konva-container"
-        // width={window.innerWidth - 500}
-        // height={(window.innerWidth - 500) * (9 / 16)}
         width={1280}
         height={720}
         style={{ background: "#fff" }}
@@ -177,6 +173,10 @@ const Canvas = () => {
                     text={element.text}
                     fontFamily={element.fontFamily}
                     fontSize={element.fontSize}
+                    lineHeight={element.lineHeight}
+                    letterSpacing={element.letterSpacing}
+                    fontStyle={element.fontStyle}
+                    align={element.align}
                     width={element.width}
                     height={element.height}
                     key={element.elementId}

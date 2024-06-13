@@ -1,6 +1,5 @@
-import { FC, useEffect, useRef, useState } from "react";
-import { Circle, Text, Transformer } from "react-konva";
-import useImage from "use-image";
+import { FC, useEffect, useRef } from "react";
+import { Text, Transformer } from "react-konva";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 
 const TextElement: FC<KonvaElementType> = (element) => {
@@ -29,6 +28,11 @@ const TextElement: FC<KonvaElementType> = (element) => {
         text={element.text}
         fontFamily={element.fontFamily}
         fontSize={element.fontSize}
+        lineHeight={element.lineHeight}
+        letterSpacing={element.letterSpacing}
+        align={element.align}
+        fill={element.fill}
+        fontStyle={element.fontStyle?.toString()}
         onDragEnd={(e) => {
           element.onChange &&
             element.onChange({

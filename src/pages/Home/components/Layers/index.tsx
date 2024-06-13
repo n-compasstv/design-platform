@@ -6,14 +6,14 @@ import {
   ListItemText,
 } from "@mui/material";
 import { FaLayerGroup } from "react-icons/fa";
-import DraggableList from "../../common/components/DraggableList";
-import { useAppDispatch, useAppSelector } from "../../app/hooks/useStore";
-import { DraggableItemType } from "../../app/types/draggable";
+import DraggableList from "../../../../common/components/DraggableList";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
+import { DraggableItemType } from "../../../../app/types/draggable";
 import { DropResult } from "react-beautiful-dnd";
-import { reorder } from "../../app/helpers/array";
+import { reorder } from "../../../../app/helpers/array";
 import { useEffect, useState } from "react";
-import { setLayers, setSelectedLayer } from "../../app/slices/layerSlice";
-import LayerContent from "./components/LayerContent";
+import { setLayers, setSelectedLayer } from "../../../../app/slices/layerSlice";
+import LayerContent from "./LayerContent";
 
 const Layers = () => {
   const { layers, selectedLayer } = useAppSelector((s) => s.layer);

@@ -4,12 +4,12 @@ import { FaShapes } from "react-icons/fa";
 import { FaPhotoFilm } from "react-icons/fa6";
 import { FaTableList } from "react-icons/fa6";
 import { IoText } from "react-icons/io5";
-import SolidTabs from "../../common/components/SolidTabs";
+import SolidTabs from "../../../common/components/SolidTabs";
 import { IconButton, Typography } from "@mui/material";
 import { useState } from "react";
-import MediaDialog from "./components/Media/MediaDialog";
-import ShapeDialog from "./components/Shapes/ShapeDialog";
-import TextDialog from "./components/Text/TextDialog";
+import MediaDialog from "./Media/MediaDialog";
+import ShapeDialog from "./Shapes/ShapeDialog";
+import TextDialog from "./Text/TextDialog";
 import { useNavigate } from "react-router-dom";
 
 const VerticalTabs = () => {

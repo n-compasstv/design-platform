@@ -31,6 +31,7 @@ const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
       type: shape.toLowerCase(),
       stroke: "",
       strokeWidth: 0,
+      sides: shape.toLowerCase() == "triangle" ? 3 : undefined,
     };
     //insert new shape in the beginning of the array.
     const allLayers = [newLayer, ...layers];

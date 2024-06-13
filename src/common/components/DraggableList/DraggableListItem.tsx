@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { ListItem, ListItemIcon } from "@mui/material";
 import { MdDragIndicator } from "react-icons/md";
+import { grey } from "@mui/material/colors";
 
 export type Props = {
   id: string;
@@ -40,9 +41,9 @@ const DraggableListItem: FC<Props> = ({
           {content}
           <ListItemIcon
             {...provided.dragHandleProps}
-            sx={{ position: "absolute", minWidth: 0, top: "11px", right: "8px" }}
+            sx={{ position: "absolute", minWidth: 0, top: "11px", right: "10px" }}
           >
-            <MdDragIndicator />
+            <MdDragIndicator color={grey[900]}/>
           </ListItemIcon>
         </ListItem>
       )}

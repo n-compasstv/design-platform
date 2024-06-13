@@ -23,7 +23,7 @@ const TriangleElement: FC<KonvaElementType> = (element) => {
         width={element.width}
         height={element.height}
         radius={element.radius ?? 0}
-        sides={3}
+        sides={element.sides || 3}
         x={element.x}
         y={element.y}
         stroke={element.stroke}

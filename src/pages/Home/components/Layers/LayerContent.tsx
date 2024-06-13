@@ -10,13 +10,19 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from "@mui/material";
-import { orange } from "@mui/material/colors";
-import { KonvaElementType } from "../../../app/types/KonvaTypes";
+import { grey, orange, red } from "@mui/material/colors";
+import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 import { ChangeEvent, FC, useState } from "react";
 import { MuiColorInput } from "mui-color-input";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks/useStore";
-import { setLayers } from "../../../app/slices/layerSlice";
-import { fontFamilyList, textAlignList } from "../../../common/constants/text";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
+import { setLayers } from "../../../../app/slices/layerSlice";
+import {
+  fontFamilyList,
+  textAlignList,
+} from "../../../../common/constants/text";
+import { MdOutlineDeleteForever } from "react-icons/md";
+import { FaCopy } from "react-icons/fa6";
+import DeleteLayerDialog from "./DeleteLayerDialog";
 
 type LayerContentProps = {
   layer: KonvaElementType;
@@ -24,6 +30,8 @@ type LayerContentProps = {
 };
 
 const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
+  const [isDeleteLayerOpen, setIsDeleteLayerOpen] = useState<boolean>(false);
+  const [layerToDelete, setLayerToDelete] = useState<string | undefined>();
   const { layers } = useAppSelector((s) => s.layer);
   const dispatch = useAppDispatch();
   let header = "";
@@ -113,10 +121,10 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
     if (index > -1 && value >= minValue) {
       let newLayers = [...layers];
       const prop: keyof KonvaElementType = field;
-      
-      let tempLayer: any = {...newLayers[index]};
+
+      let tempLayer: any = { ...newLayers[index] };
       tempLayer[prop] = +value;
-      
+
       newLayers[index] = tempLayer;
       dispatch(setLayers(newLayers));
     }
@@ -129,13 +137,30 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
         sx={{
           px: 2,
           py: 1,
-
+          pr: 4,
           background: isLayerSelected ? orange[100] : "inherit",
         }}
       >
-        <Typography noWrap sx={{ maxWidth: "150px" }}>
-          <small className="collapse-trigger">{header}</small>
-        </Typography>
+        <Stack
+          className="collapse-trigger"
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography noWrap sx={{ maxWidth: "150px" }}>
+            <small className="collapse-trigger">{header}</small>
+          </Typography>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <FaCopy color={grey[700]} fontSize={14} />
+            <MdOutlineDeleteForever
+              color={red[800]}
+              onClick={() => {
+                setIsDeleteLayerOpen(true);
+                setLayerToDelete(layer.elementId);
+              }}
+            />
+          </Stack>
+        </Stack>
       </Box>
       <Box
         sx={{
@@ -205,7 +230,7 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
 
             <Stack direction="row" spacing={2}>
               <TextField
-                label="X"
+                label="x"
                 type="number"
                 InputLabelProps={{
                   shrink: true,
@@ -216,7 +241,7 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                 onChange={(event) => handleNumericValueChange(event, "x", 0)}
               />
               <TextField
-                label="Y"
+                label="y"
                 type="number"
                 InputLabelProps={{
                   shrink: true,
@@ -288,10 +313,10 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
               </Stack>
             )}
 
-            {["media", "rectangle", "triangle"].includes(layer.type || "") && (
+            {["media", "rectangle"].includes(layer.type || "") && (
               <Stack direction="row" spacing={2}>
                 <TextField
-                  label="Width"
+                  label="width"
                   type="number"
                   InputLabelProps={{
                     shrink: true,
@@ -304,7 +329,7 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                   }
                 />
                 <TextField
-                  label="Height"
+                  label="height"
                   type="number"
                   InputLabelProps={{
                     shrink: true,
@@ -324,9 +349,9 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
             ) && (
               <Stack direction="row" spacing={2}>
                 <MuiColorInput
-                  sx={{ maxWidth: 101 }}
+                  sx={{ maxWidth: 126 }}
                   format="rgb"
-                  label="Stroke"
+                  label="stroke"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -336,7 +361,7 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                   onChange={handleStrokeChange}
                 />
                 <TextField
-                  label="Stroke Width"
+                  label="stroke width"
                   type="number"
                   InputLabelProps={{
                     shrink: true,
@@ -353,9 +378,9 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
             {["circle", "rectangle", "triangle"].includes(layer.type || "") && (
               <Stack direction="row" spacing={2}>
                 <MuiColorInput
-                  sx={{ maxWidth: 101 }}
+                  sx={{ maxWidth: 126 }}
                   format="rgb"
-                  label="Fill"
+                  label="fill"
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -365,7 +390,7 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                   onChange={handleFillChange}
                 />
                 <TextField
-                  label="Radius"
+                  label={layer.type == "rectangle" ? "corner radius" : "radius"}
                   type="number"
                   InputLabelProps={{
                     shrink: true,
@@ -379,13 +404,36 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                 />
               </Stack>
             )}
+
+            {layer.type == "triangle" && (
+              <Stack direction="row" spacing={2}>
+                <TextField
+                  sx={{maxWidth: 126}}
+                  label="sides"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="filled"
+                  size="small"
+                  value={layer.sides}
+                  onChange={(event) =>
+                    handleNumericValueChange(event, "sides", 3)
+                  }
+                />
+                <></>
+              </Stack>
+            )}
           </Stack>
         </Collapse>
       </Box>
+      <DeleteLayerDialog
+        isOpen={isDeleteLayerOpen}
+        handleClose={() => setIsDeleteLayerOpen(false)}
+        elementIdToDelete={layerToDelete}
+      />
     </Box>
   );
 };
 
 export default LayerContent;
-
-

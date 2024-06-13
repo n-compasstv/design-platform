@@ -2,13 +2,13 @@ import { createRef } from "react";
 import { Stage, Layer } from "react-konva";
 import Konva from "konva";
 import { Box } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../app/hooks/useStore";
-import { setLayers, setSelectedLayer } from "../../app/slices/layerSlice";
-import MediaElement from "./components/Media/MediaElement";
-import CircleElement from "./components/Shapes/CircleElement";
-import RectElement from "./components/Shapes/RectElement";
-import TriangleElement from "./components/Shapes/TriangleElement";
-import TextElement from "./components/Text/TextElement";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks/useStore";
+import { setLayers, setSelectedLayer } from "../../../app/slices/layerSlice";
+import MediaElement from "./Media/MediaElement";
+import CircleElement from "./Shapes/CircleElement";
+import RectElement from "./Shapes/RectElement";
+import TriangleElement from "./Shapes/TriangleElement";
+import TextElement from "./Text/TextElement";
 
 const Canvas = () => {
   const stageRef = createRef<Konva.Stage>();

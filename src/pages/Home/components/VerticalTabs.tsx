@@ -60,7 +60,7 @@ const VerticalTabs = () => {
         >
           {tabs.map((tab, index) => (
             <IconButton
-              key={tab.label}
+              key={index}
               sx={{
                 py: 2,
                 color: "#000",

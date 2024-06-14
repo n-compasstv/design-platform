@@ -53,7 +53,7 @@ const Layers = () => {
     const draggablesList = layers.map((m, index) => {
       const draggableLayer: DraggableItemType = {
         id: m.elementId,
-        content: <Box><LayerContent layer={m} selectedLayer={selectedLayer} /></Box>,
+        content: <Box key={index}><LayerContent layer={m} selectedLayer={selectedLayer} /></Box>,
         isSelected: selectedLayer?.elementId == m.elementId,
       };
       return draggableLayer;

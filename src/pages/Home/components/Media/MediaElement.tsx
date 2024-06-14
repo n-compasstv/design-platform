@@ -5,27 +5,32 @@ import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 import Konva from "konva";
 
 const MediaElement: FC<KonvaElementType> = (element) => {
-  const [img] = useImage(element.src ?? "");
+  const [img] = useImage(element.src ?? "", "anonymous"); // anonymous to fix tainted canvas issue
 
   const elementRef = useRef<any>();
   const trRef = useRef<any>();
 
   useEffect(() => {
     if (element.isSelected) {
-      // we need to attach transformer manually
       trRef.current.nodes([elementRef.current]);
       trRef.current.getLayer().batchDraw();
     }
   }, [element.isSelected]);
 
+  useEffect(() => {
+    if (img) {
+      // you many need to reapply cache on some props changes like shadow, stroke, etc.
+      elementRef.current.cache();
+    }
+  }, [img]);
+
   return (
     <>
-      {element && element.type}
       <Image
         ref={elementRef}
         draggable
-        // filters={[Konva.Filters.Blur]}
-        // blurRadius={10}
+        // filters={element.isFeatured ? [Konva.Filters.Blur] : []}
+        // blurRadius={element.isFeatured ? 5 : 0}
         image={img}
         width={element.width}
         height={element.height}
@@ -33,6 +38,7 @@ const MediaElement: FC<KonvaElementType> = (element) => {
         y={element.y}
         stroke={element.stroke}
         strokeWidth={element.strokeWidth}
+        isFeatured={element.isFeatured}
         onDragEnd={(e) => {
           element.onChange &&
             element.onChange({

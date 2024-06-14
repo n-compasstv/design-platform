@@ -125,7 +125,6 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
 
       for (let i = 0; i < newLayers.length; i++) {
         if (i == index) {
-          console.log(index, isChecked);
           newLayers[i] = { ...newLayers[i], isTitle: isChecked };
         } else {
           newLayers[i] = {
@@ -150,12 +149,36 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
 
       for (let i = 0; i < newLayers.length; i++) {
         if (i == index) {
-          console.log(index, isChecked);
           newLayers[i] = { ...newLayers[i], isTeaser: isChecked };
         } else {
           newLayers[i] = {
             ...newLayers[i],
             isTeaser: newLayers[i].isTeaser == undefined ? undefined : false,
+          };
+        }
+      }
+
+      dispatch(setLayers(newLayers));
+    }
+  };
+
+  const handleSetAsFeaturedImageCheckboxChange = (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    const index = layers.findIndex((f) => f.elementId == layer.elementId);
+
+    const isChecked = event.target.checked;
+    if (index > -1) {
+      let newLayers = [...layers];
+
+      for (let i = 0; i < newLayers.length; i++) {
+        if (i == index) {
+          newLayers[i] = { ...newLayers[i], isFeatured: isChecked };
+        } else {
+          newLayers[i] = {
+            ...newLayers[i],
+            isFeatured:
+              newLayers[i].isFeatured == undefined ? undefined : false,
           };
         }
       }
@@ -208,9 +231,22 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
             >
               <small className="collapse-trigger">{header}</small>
             </Typography>
-            {(layer.isTitle || layer.isTeaser) && (
-              <Tooltip title="Featured title">
-                <FaStar color={orange[600]} fontSize={12} />
+            {(layer.isTitle || layer.isTeaser || layer.isFeatured) && (
+              <Tooltip
+                placement="top"
+                title={
+                  layer.isTitle
+                    ? "Title"
+                    : layer.isTeaser
+                    ? "Teaser"
+                    : layer.isFeatured
+                    ? "Featured Image"
+                    : ""
+                }
+              >
+                <span>
+                  <FaStar color={orange[600]} fontSize={12} />
+                </span>
               </Tooltip>
             )}
           </Stack>
@@ -258,8 +294,8 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                     value={layer.fontFamily}
                     onChange={handleFontFamilyChange}
                   >
-                    {fontFamilyList.map((m) => (
-                      <MenuItem value={m} sx={{ fontFamily: m }}>
+                    {fontFamilyList.map((m, index) => (
+                      <MenuItem key={index} value={m} sx={{ fontFamily: m }}>
                         {m}
                       </MenuItem>
                     ))}
@@ -273,8 +309,10 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                     value={layer.align}
                     onChange={handleTextAlignChange}
                   >
-                    {textAlignList.map((m) => (
-                      <MenuItem value={m}>{m}</MenuItem>
+                    {textAlignList.map((m, index) => (
+                      <MenuItem key={index} value={m}>
+                        {m}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -512,6 +550,20 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                   />
                 }
                 label="Set as Teaser"
+              />
+            )}
+
+            {layer.type == "media" && layer.isFeatured != undefined && (
+              <FormControlLabel
+                sx={{ "& .MuiTypography-root": { fontSize: "12px" } }}
+                control={
+                  <Checkbox
+                    size="small"
+                    checked={layer.isFeatured}
+                    onChange={handleSetAsFeaturedImageCheckboxChange}
+                  />
+                }
+                label="Set as Featured Image"
               />
             )}
           </Stack>

@@ -53,6 +53,7 @@ const Canvas = () => {
                     isSelected={element.elementId == selectedLayer?.elementId}
                     stroke={element.stroke}
                     strokeWidth={element.strokeWidth}
+                    isFeatured={element.isFeatured}
                     onChange={(newElement) => {
                       const newLayers = layers.slice();
                       const currentLayer = {

@@ -4,11 +4,6 @@ export interface KonvaElementBaseType{
   elementId: string
   x: number;
   y: number;
-}
-
-export interface KonvaElementType extends KonvaElementBaseType {
-  contentId?: string
-  src?: string;
   isSelected?: boolean;
   onSelect?: () => void;
   onChange?: (props: KonvaElementType) => void;
@@ -17,6 +12,13 @@ export interface KonvaElementType extends KonvaElementBaseType {
   height?: number;
   stroke?: string;
   strokeWidth?: number;
+}
+
+export interface KonvaElementType extends KonvaElementBaseType {
+  //media
+  contentId?: string
+  src?: string;
+  isFeatured?: boolean;
   //circle
   radius?: number;
   fill?: string;

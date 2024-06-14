@@ -46,6 +46,7 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
           height: image.height,
           type: "media",
           strokeWidth: 0,
+          isFeatured: false,
         },
       ];
     }
@@ -71,9 +72,10 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
       {(getContentsResult.isLoading
         ? Array.from(new Array(28))
         : getContentsResult.data
-      )?.map((item) =>
+      )?.map((item, index) =>
         item ? (
           <Badge
+            key={index}
             sx={{
               "& .MuiBadge-badge ": {
                 p: 0,
@@ -113,6 +115,7 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
           </Badge>
         ) : (
           <Skeleton
+            key={index}
             sx={{ m: 1 }}
             variant="rectangular"
             width={140}

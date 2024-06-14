@@ -43,7 +43,7 @@ const ShapeList: FC<ShapeListProps> = ({ onCloseDialog }) => {
   return (
     <Grid container justifyContent="space-between" alignItems="stretch">
       {shapeElements.map((shape, index) => (
-        <Grid item>
+        <Grid item key={index}>
           <Button
             key={index}
             variant="contained"

@@ -43,7 +43,7 @@ const TextList: FC<Props> = ({ onCloseDialog }) => {
   return (
     <Grid container justifyContent="center" alignItems="stretch" spacing={4}>
       {textsElements.map((text, index) => (
-        <Grid item>
+        <Grid item key={index}>
           <Button
             key={index}
             variant="contained"

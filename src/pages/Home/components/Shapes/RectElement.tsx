@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef } from "react";
 import { Rect, Transformer } from "react-konva";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 

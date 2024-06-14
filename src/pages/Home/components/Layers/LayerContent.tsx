@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { grey, orange, red } from "@mui/material/colors";
 import { KonvaElementType } from "../../../../app/types/KonvaTypes";
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useRef, useState } from "react";
 import { MuiColorInput } from "mui-color-input";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
 import { setLayers } from "../../../../app/slices/layerSlice";
@@ -38,7 +38,7 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
   const [layerToDelete, setLayerToDelete] = useState<string | undefined>();
   const { layers } = useAppSelector((s) => s.layer);
   const dispatch = useAppDispatch();
-  const [isCloned, setIsCloned] = useState(false);
+  const cloneRef = useRef<boolean>(false);
 
   let header = "";
   const isLayerSelected = selectedLayer?.elementId == layer.elementId;
@@ -214,7 +214,8 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
       (f) => f.elementId == layer.elementId
     );
 
-    if (currentIndex > -1) {
+    if (currentIndex > -1 && cloneRef.current == false) {
+      cloneRef.current = true;
       const clonedLayer: KonvaElementType = {
         ...layer,
         elementId: uuidv4(),
@@ -226,14 +227,15 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
       const newLayers = [...layers];
       newLayers.splice(currentIndex + 1, 0, clonedLayer);
       dispatch(setLayers(newLayers));
-
+      
       setTimeout(() => {
         const resetLayers = [...newLayers].map((m) => ({
           ...m,
           isCloned: false,
         }));
         dispatch(setLayers(resetLayers));
-      }, 2000);
+        cloneRef.current = false;
+      }, 1500);
     }
   };
 

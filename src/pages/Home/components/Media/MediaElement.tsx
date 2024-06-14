@@ -5,7 +5,7 @@ import { KonvaElementType } from "../../../../app/types/KonvaTypes";
 import Konva from "konva";
 
 const MediaElement: FC<KonvaElementType> = (element) => {
-  const [img] = useImage(element.src ?? "", "anonymous"); // anonymous to fix tainted canvas issue
+  const [img] = useImage(element.src ?? "");
 
   const elementRef = useRef<any>();
   const trRef = useRef<any>();
@@ -20,7 +20,7 @@ const MediaElement: FC<KonvaElementType> = (element) => {
   useEffect(() => {
     if (img) {
       // you many need to reapply cache on some props changes like shadow, stroke, etc.
-      elementRef.current.cache();
+      // elementRef.current.cache();
     }
   }, [img]);
 

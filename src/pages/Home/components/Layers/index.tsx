@@ -1,10 +1,4 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { FaLayerGroup } from "react-icons/fa";
 import DraggableList from "../../../../common/components/DraggableList";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks/useStore";
@@ -22,7 +16,6 @@ const Layers = () => {
   );
   const dispatch = useAppDispatch();
 
-  
   const onDragEnd = ({ destination, source }: DropResult) => {
     // dropped outside the list
     if (!destination) return;
@@ -53,7 +46,11 @@ const Layers = () => {
     const draggablesList = layers.map((m, index) => {
       const draggableLayer: DraggableItemType = {
         id: m.elementId,
-        content: <Box key={index}><LayerContent layer={m} selectedLayer={selectedLayer} /></Box>,
+        content: (
+          <Box key={index}>
+            <LayerContent layer={m} selectedLayer={selectedLayer} />
+          </Box>
+        ),
         isSelected: selectedLayer?.elementId == m.elementId,
       };
       return draggableLayer;
@@ -62,7 +59,12 @@ const Layers = () => {
   }, [layers, selectedLayer]);
 
   return (
-    <Box height="100%" bgcolor="background.paper" position="sticky">
+    <Box
+      height="100%"
+      bgcolor="background.paper"
+      position="sticky"
+      sx={{ overflowY: "auto" }}
+    >
       <List
         sx={{ width: "300px", py: 0 }}
         component="nav"

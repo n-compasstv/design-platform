@@ -12,6 +12,7 @@ export interface KonvaElementBaseType{
   height?: number;
   stroke?: string;
   strokeWidth?: number;
+  isCloned?: boolean;
 }
 
 export interface KonvaElementType extends KonvaElementBaseType {

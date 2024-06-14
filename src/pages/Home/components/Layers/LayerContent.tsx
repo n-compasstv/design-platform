@@ -26,6 +26,7 @@ import {
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { FaCopy, FaStar } from "react-icons/fa6";
 import DeleteLayerDialog from "./DeleteLayerDialog";
+import { v4 as uuidv4 } from "uuid";
 
 type LayerContentProps = {
   layer: KonvaElementType;
@@ -37,6 +38,8 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
   const [layerToDelete, setLayerToDelete] = useState<string | undefined>();
   const { layers } = useAppSelector((s) => s.layer);
   const dispatch = useAppDispatch();
+  const [isCloned, setIsCloned] = useState(false);
+
   let header = "";
   const isLayerSelected = selectedLayer?.elementId == layer.elementId;
 
@@ -206,10 +209,38 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
     }
   };
 
+  const handleClickClone = () => {
+    const currentIndex = layers.findIndex(
+      (f) => f.elementId == layer.elementId
+    );
+
+    if (currentIndex > -1) {
+      const clonedLayer: KonvaElementType = {
+        ...layer,
+        elementId: uuidv4(),
+        isFeatured: layer.type == "media" ? false : undefined,
+        isTitle: layer.isTitle != undefined ? false : undefined,
+        isTeaser: layer.isTeaser != undefined ? false : undefined,
+        isCloned: true,
+      };
+      const newLayers = [...layers];
+      newLayers.splice(currentIndex + 1, 0, clonedLayer);
+      dispatch(setLayers(newLayers));
+
+      setTimeout(() => {
+        const resetLayers = [...newLayers].map((m) => ({
+          ...m,
+          isCloned: false,
+        }));
+        dispatch(setLayers(resetLayers));
+      }, 2000);
+    }
+  };
+
   return (
     <Box sx={{ cursor: "pointer", width: "300px" }}>
       <Box
-        className="collapse-trigger"
+        className={`collapse-trigger ${layer.isCloned ? "blink-box" : ""}`}
         sx={{
           px: 2,
           py: 1,
@@ -251,7 +282,11 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
             )}
           </Stack>
           <Stack direction="row" spacing={1} alignItems="center">
-            <FaCopy color={grey[700]} fontSize={14} />
+            <FaCopy
+              color={grey[700]}
+              fontSize={14}
+              onClick={handleClickClone}
+            />
             <MdOutlineDeleteForever
               color={red[800]}
               onClick={() => {

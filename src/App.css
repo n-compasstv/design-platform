@@ -40,3 +40,15 @@
     transform: rotate(360deg);
   }
 }
+
+
+.blink-box {
+  color: #000;
+  animation: blinkingText 1s infinite;
+}
+
+@keyframes blinkingText{
+  0%		{ background: #fff;}
+  50%		{ background: #fff3e0;}
+  100%	{ background: #fff;}
+}

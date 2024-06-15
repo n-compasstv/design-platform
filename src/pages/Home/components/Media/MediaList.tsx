@@ -1,4 +1,5 @@
 import {
+  Alert,
   Badge,
   Card,
   CardActionArea,
@@ -62,7 +63,9 @@ const MediaList: FC<MediaListProps> = ({ setSelectedMedia }) => {
     getContentsTrigger();
   }, []);
 
-  return (
+  return getContentsResult.isError ? (
+    <Alert severity="error">Unable to fetch media.</Alert>
+  ) : (
     <Grid
       container
       direction="row"

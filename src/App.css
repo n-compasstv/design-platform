@@ -43,12 +43,11 @@
 
 
 .blink-box {
-  color: #000;
   animation: blinkingText 1s infinite;
 }
 
 @keyframes blinkingText{
   0%		{ background: #fff;}
-  50%		{ background: #fff3e0;}
+  50%		{ background: #e0f2f1;}
   100%	{ background: #fff;}
 }

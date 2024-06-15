@@ -38,7 +38,9 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
   const [layerToDelete, setLayerToDelete] = useState<string | undefined>();
   const { layers } = useAppSelector((s) => s.layer);
   const dispatch = useAppDispatch();
-  const cloneRef = useRef<boolean>(false);
+  const isCloningRef = useRef<boolean>(false);
+
+  const [isCloning, setIsCloning] = useState(false);
 
   let header = "";
   const isLayerSelected = selectedLayer?.elementId == layer.elementId;
@@ -214,8 +216,8 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
       (f) => f.elementId == layer.elementId
     );
 
-    if (currentIndex > -1 && cloneRef.current == false) {
-      cloneRef.current = true;
+    if (currentIndex > -1 && !isCloning) {
+      setIsCloning(true);
       const clonedLayer: KonvaElementType = {
         ...layer,
         elementId: uuidv4(),
@@ -234,8 +236,8 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
           isCloned: false,
         }));
         dispatch(setLayers(resetLayers));
-        cloneRef.current = false;
-      }, 1500);
+        setIsCloning(false);
+      }, 1000);
     }
   };
 

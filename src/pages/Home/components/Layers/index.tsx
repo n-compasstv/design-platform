@@ -66,8 +66,14 @@ const Layers = () => {
       sx={{ overflowY: "auto" }}
     >
       <List
-        sx={{ width: "300px", py: 0 }}
-        component="nav"
+        sx={{
+          width: "300px",
+          py: 0,
+          position: "sticky",
+          top: 0,
+          zIndex: 2,
+          bgcolor: "background.paper",
+        }}
         aria-labelledby="layers"
       >
         <ListItem>

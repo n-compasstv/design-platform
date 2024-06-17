@@ -229,7 +229,7 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
       const newLayers = [...layers];
       newLayers.splice(currentIndex + 1, 0, clonedLayer);
       dispatch(setLayers(newLayers));
-      
+
       setTimeout(() => {
         const resetLayers = [...newLayers].map((m) => ({
           ...m,
@@ -332,6 +332,13 @@ const LayerContent: FC<LayerContentProps> = ({ layer, selectedLayer }) => {
                     id="font-family-select"
                     value={layer.fontFamily}
                     onChange={handleFontFamilyChange}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: 400,
+                        },
+                      },
+                    }}
                   >
                     {fontFamilyList.map((m, index) => (
                       <MenuItem key={index} value={m} sx={{ fontFamily: m }}>

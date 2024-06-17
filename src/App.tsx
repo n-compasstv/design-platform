@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import "./App.css";
+import "./App.scss";
 import DenseAppBar from "./common/components/DenseAppBar";
 import Routing from "./pages/Routing";
 

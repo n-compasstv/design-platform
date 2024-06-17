@@ -28,7 +28,7 @@ const TextList: FC<Props> = ({ onCloseDialog }) => {
       align: "center",
       lineHeight: 1,
       letterSpacing: 0,
-      fontStyle: 100,
+      fontStyle: 500,
       fill: "rgb(0,0,0)",
       isTitle: text.toLowerCase() == "heading" ? false : undefined,
       isTeaser: text.toLowerCase() == "paragraph" ? false : undefined,

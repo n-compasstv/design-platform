@@ -2,7 +2,7 @@ export interface NewsTemplateType {
   id: string;
   newsTitle: string;
   newsDescription: string;
-  newsObject: string | undefined | null;
+  newsObject: object | undefined | null;
   assignedDealer: {
     dealerId: string;
     dealerBusinessName: string;

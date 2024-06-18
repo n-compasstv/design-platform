@@ -1,16 +1,58 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { FaHome, FaSave } from "react-icons/fa";
 import { FaChartLine, FaPlus } from "react-icons/fa6";
-import SaveTemplateDialog from "./SaveTemplateDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "../../../app/hooks/useStore";
+import { usePutNewsTemplateByIdMutation } from "../../../app/services/api/endpoints/newsTemplate";
+import { UpdateNewsTemplateModel } from "../../../app/models/UpdateNewsTemplateModel";
+import { LoadingButton } from "@mui/lab";
+import { orange } from "@mui/material/colors";
+import theme from "../../../app/theme";
+import WarningDialog from "./WarningDialog";
+import { useSnackbar } from "notistack";
 
 const Header = () => {
   const [isSaveOpen, setIsSaveOpen] = useState(false);
+  const { layers } = useAppSelector((s) => s.layer);
   const { template } = useAppSelector((s) => s.newsTemplate);
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [updateTemplateTrigger, updateTemplateResult] =
+    usePutNewsTemplateByIdMutation();
+
+  const saveTemplate = () => {
+    if (template) {
+      const updateTemplateModel: UpdateNewsTemplateModel = {
+        newsTemplateId: template.id,
+        newsObject: layers,
+      };
+      updateTemplateTrigger(updateTemplateModel);
+    }
+  };
+
+  const onSave = () => {
+    if (layers.length > 0) {
+      saveTemplate();
+    } else {
+      setIsSaveOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    if(updateTemplateResult.isSuccess) {
+      enqueueSnackbar('Template saved!', { variant: "success", autoHideDuration: 2000 });
+    }
+
+    if(updateTemplateResult.isError) {
+      enqueueSnackbar('Failed to save template.', { variant: "error", autoHideDuration: 2000 });
+    }
+  }, [updateTemplateResult])
+
   return (
     <Stack direction="row" alignItems="center" flexGrow={1}>
-      <Typography color="inherit">{template ? template.newsTitle : "News Builder"}</Typography>
+      <Typography color="inherit">
+        {template ? template.newsTitle : "News Builder"}
+      </Typography>
 
       {template ? (
         <Box
@@ -32,15 +74,24 @@ const Header = () => {
           >
             Home
           </Button>
-          <Button
+          <LoadingButton
             color="warning"
             variant="contained"
-            sx={{ mr: 1 }}
             endIcon={<FaSave size={14} />}
-            onClick={() => setIsSaveOpen(true)}
+            onClick={onSave}
+            loading={updateTemplateResult.isLoading}
+            sx={{
+              mr: 1,
+              "&.MuiLoadingButton-loading": {
+                background: theme.palette.warning.main,
+              },
+              "& .MuiLoadingButton-loadingIndicator": {
+                color: theme.palette.common.white
+              }
+            }}
           >
             Save
-          </Button>
+          </LoadingButton>
           <Button
             color="warning"
             variant="contained"
@@ -53,7 +104,7 @@ const Header = () => {
       ) : (
         <></>
       )}
-      <SaveTemplateDialog
+      <WarningDialog
         isOpen={isSaveOpen}
         handleClose={() => setIsSaveOpen(false)}
       />

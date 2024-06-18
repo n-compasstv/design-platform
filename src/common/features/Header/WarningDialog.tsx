@@ -1,46 +1,39 @@
-import React, { FC, useState } from "react";
+import { FC } from "react";
 import Button from "@mui/material/Button";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
+import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Typography } from "@mui/material";
-import { useAppSelector } from "../../../app/hooks/useStore";
+import { Alert, Typography } from "@mui/material";
 
 type MediaDialogProps = {
   isOpen: boolean;
   handleClose: () => void;
 };
 
-const SaveTemplateDialog: FC<MediaDialogProps> = ({ isOpen, handleClose }) => {
-  const { layers } = useAppSelector((u) => u.layer);
-
+const WarningDialog: FC<MediaDialogProps> = ({ isOpen, handleClose }) => {
   return (
     <Dialog
-      maxWidth="sm"
+      maxWidth="md"
       open={isOpen}
       onClose={handleClose}
       scroll="paper"
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
     >
-      <DialogTitle id="scroll-dialog-title">Save Template</DialogTitle>
+      <DialogTitle id="scroll-dialog-title">Warning</DialogTitle>
       <DialogContent dividers={true}>
         <Typography>
-          <pre>{JSON.stringify(layers)}</pre>
+          <Alert severity="warning">Template is empty.</Alert>
         </Typography>
       </DialogContent>
       <DialogActions sx={{ justifyContent: "start", p: 2 }}>
-        <Button variant="contained" color="error">
-          Yes, Save
-        </Button>
         <Button variant="outlined" onClick={handleClose}>
-          Cancel
+          Close
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default SaveTemplateDialog;
+export default WarningDialog;

@@ -1,4 +1,5 @@
 import { designPlatformApi } from "..";
+import { UpdateNewsTemplateModel } from "../../../models/UpdateNewsTemplateModel";
 import { NewsTemplateType } from "../../../types/NewsTemplateTypes";
 
 const extendedApi = designPlatformApi.injectEndpoints({
@@ -9,9 +10,21 @@ const extendedApi = designPlatformApi.injectEndpoints({
     getAllNewsTemplate: builder.query<NewsTemplateType[], void>({
       query: () => `/NewsTemplate`,
     }),
+    putNewsTemplateById: builder.mutation<NewsTemplateType, UpdateNewsTemplateModel>({
+      query: (model) => ({
+        url: `/NewsTemplate/${model.newsTemplateId}`,
+        method: "PUT",
+        body: model,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetNewsTemplateByIdQuery, useGetAllNewsTemplateQuery, useLazyGetNewsTemplateByIdQuery } =
-  extendedApi;
+export const {
+  useGetNewsTemplateByIdQuery,
+  useGetAllNewsTemplateQuery,
+  useLazyGetNewsTemplateByIdQuery,
+
+  usePutNewsTemplateByIdMutation,
+} = extendedApi;

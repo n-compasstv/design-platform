@@ -14,7 +14,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useLazyGetNewsTemplateByIdQuery } from "../../app/services/api/endpoints/newsTemplate";
 import { useAppDispatch } from "../../app/hooks/useStore";
-import { setNewsTemplate } from "../../app/slices/newsTemplateSlice";
+import {
+  setIsLoadingTemplate,
+  setNewsTemplate,
+} from "../../app/slices/newsTemplateSlice";
 import { NewsTemplateType } from "../../app/types/NewsTemplateTypes";
 import { setLayers } from "../../app/slices/layerSlice";
 import { KonvaElementType } from "../../app/types/KonvaTypes";
@@ -34,25 +37,32 @@ const Home = () => {
   useEffect(() => {
     //check if template id is present
     if (newstemplateid) {
+      dispatch(setIsLoadingTemplate(true));
       //check if template id exist in db
-      getNewsTemplateByIdTrigger(newstemplateid).then((response) => {
-        if (response.isSuccess) {
-          const template: NewsTemplateType = response.data;
-          dispatch(setNewsTemplate(template));
+      getNewsTemplateByIdTrigger(newstemplateid)
+        .then((response) => {
+          if (response.isSuccess) {
+            const template: NewsTemplateType = response.data;
+            dispatch(setNewsTemplate(template));
 
-          if (template.newsObject) {
-            dispatch(setLayers(template.newsObject as KonvaElementType[]));
+            if (template.newsObject) {
+              dispatch(setLayers(template.newsObject as KonvaElementType[]));
+            }
           }
-        }
-      });
+        })
+        .finally(() => {
+          dispatch(setIsLoadingTemplate(false));
+        });
     }
   }, [newstemplateid]);
   return (
     <Box height="calc(100vh - 64px)">
       <Toolbar />
       {getNewsTemplateByIdResult.isLoading ||
-      getNewsTemplateByIdResult.isFetching || !isFontsLoaded ? (
+      getNewsTemplateByIdResult.isFetching ||
+      !isFontsLoaded ? (
         <Skeleton
+          animation="wave"
           sx={{ m: 2 }}
           variant="rectangular"
           width="98%"

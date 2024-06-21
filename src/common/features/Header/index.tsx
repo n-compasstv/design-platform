@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Skeleton, Stack, Typography } from "@mui/material";
 import { FaHome, FaSave } from "react-icons/fa";
 import { FaChartLine, FaPlus } from "react-icons/fa6";
 import { useEffect, useState } from "react";
@@ -6,7 +6,7 @@ import { useAppSelector } from "../../../app/hooks/useStore";
 import { usePutNewsTemplateByIdMutation } from "../../../app/services/api/endpoints/newsTemplate";
 import { UpdateNewsTemplateModel } from "../../../app/models/UpdateNewsTemplateModel";
 import { LoadingButton } from "@mui/lab";
-import { orange } from "@mui/material/colors";
+import { grey, orange } from "@mui/material/colors";
 import theme from "../../../app/theme";
 import WarningDialog from "./WarningDialog";
 import { useSnackbar } from "notistack";
@@ -14,7 +14,7 @@ import { useSnackbar } from "notistack";
 const Header = () => {
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const { layers } = useAppSelector((s) => s.layer);
-  const { template } = useAppSelector((s) => s.newsTemplate);
+  const { template, isLoading } = useAppSelector((s) => s.newsTemplate);
   const { enqueueSnackbar } = useSnackbar();
 
   const [updateTemplateTrigger, updateTemplateResult] =
@@ -39,19 +39,33 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if(updateTemplateResult.isSuccess) {
-      enqueueSnackbar('Template saved!', { variant: "success", autoHideDuration: 2000 });
+    if (updateTemplateResult.isSuccess) {
+      enqueueSnackbar("Template saved!", {
+        variant: "success",
+        autoHideDuration: 2000,
+      });
     }
 
-    if(updateTemplateResult.isError) {
-      enqueueSnackbar('Failed to save template.', { variant: "error", autoHideDuration: 2000 });
+    if (updateTemplateResult.isError) {
+      enqueueSnackbar("Failed to save template.", {
+        variant: "error",
+        autoHideDuration: 2000,
+      });
     }
-  }, [updateTemplateResult])
+  }, [updateTemplateResult]);
 
   return (
     <Stack direction="row" alignItems="center" flexGrow={1}>
       <Typography color="inherit">
-        {template ? template.newsTitle : "News Builder"}
+        {isLoading ? (
+          <Skeleton
+            animation="wave"
+            variant="text"
+            sx={{ fontSize: "2rem", width: 200, bgcolor: "#ffffff1f" }}
+          />
+        ) : (
+          template?.newsTitle || "News Builder"
+        )}
       </Typography>
 
       {template ? (
@@ -86,8 +100,8 @@ const Header = () => {
                 background: theme.palette.warning.main,
               },
               "& .MuiLoadingButton-loadingIndicator": {
-                color: theme.palette.common.white
-              }
+                color: theme.palette.common.white,
+              },
             }}
           >
             Save

@@ -18,6 +18,8 @@ import { setNewsTemplate } from "../../app/slices/newsTemplateSlice";
 import { NewsTemplateType } from "../../app/types/NewsTemplateTypes";
 import { setLayers } from "../../app/slices/layerSlice";
 import { KonvaElementType } from "../../app/types/KonvaTypes";
+import useFontFaceObserver from "use-font-face-observer";
+import { fontFamilyList } from "../../common/constants/text";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +27,9 @@ const Home = () => {
   const navigate = useNavigate();
   const [getNewsTemplateByIdTrigger, getNewsTemplateByIdResult] =
     useLazyGetNewsTemplateByIdQuery();
+  const isFontsLoaded = useFontFaceObserver(
+    fontFamilyList.map((font) => ({ family: font } as any))
+  );
 
   useEffect(() => {
     //check if template id is present
@@ -46,7 +51,7 @@ const Home = () => {
     <Box height="calc(100vh - 64px)">
       <Toolbar />
       {getNewsTemplateByIdResult.isLoading ||
-      getNewsTemplateByIdResult.isFetching ? (
+      getNewsTemplateByIdResult.isFetching || !isFontsLoaded ? (
         <Skeleton
           sx={{ m: 2 }}
           variant="rectangular"

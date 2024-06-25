@@ -20,6 +20,11 @@ const WarningDialog: FC<MediaDialogProps> = ({ isOpen, handleClose }) => {
       scroll="paper"
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
+      sx={{
+        "& > .MuiPaper-root": {
+          width: 500
+        }
+      }}
     >
       <DialogTitle id="scroll-dialog-title">Warning</DialogTitle>
       <DialogContent dividers={true}>

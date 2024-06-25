@@ -10,6 +10,7 @@ import { grey, orange } from "@mui/material/colors";
 import theme from "../../../app/theme";
 import WarningDialog from "./WarningDialog";
 import { useSnackbar } from "notistack";
+import { emitCustomEvent } from "react-custom-events";
 
 const Header = () => {
   const [isSaveOpen, setIsSaveOpen] = useState(false);
@@ -17,8 +18,7 @@ const Header = () => {
   const { template, isLoading } = useAppSelector((s) => s.newsTemplate);
   const { enqueueSnackbar } = useSnackbar();
 
-  const [updateTemplateTrigger, updateTemplateResult] =
-    usePutNewsTemplateByIdMutation();
+  const [updateTemplateTrigger, updateTemplateResult] = usePutNewsTemplateByIdMutation();
 
   const saveTemplate = () => {
     if (template) {
@@ -26,13 +26,16 @@ const Header = () => {
         newsTemplateId: template.id,
         newsObject: layers,
       };
-      updateTemplateTrigger(updateTemplateModel);
+      return updateTemplateTrigger(updateTemplateModel);
     }
+    return Promise.resolve();
   };
 
   const onSave = () => {
     if (layers.length > 0) {
-      saveTemplate();
+      saveTemplate().then(() => {
+        emitCustomEvent("ce-canvastohtml");
+      });
     } else {
       setIsSaveOpen(true);
     }
@@ -69,9 +72,7 @@ const Header = () => {
       </Typography>
 
       {template ? (
-        <Box
-          sx={{ justifyContent: "end", flexGrow: 1, display: { md: "flex" } }}
-        >
+        <Box sx={{ justifyContent: "end", flexGrow: 1, display: { md: "flex" } }}>
           <Button
             color="warning"
             variant="contained"
@@ -118,10 +119,7 @@ const Header = () => {
       ) : (
         <></>
       )}
-      <WarningDialog
-        isOpen={isSaveOpen}
-        handleClose={() => setIsSaveOpen(false)}
-      />
+      <WarningDialog isOpen={isSaveOpen} handleClose={() => setIsSaveOpen(false)} />
     </Stack>
   );
 };

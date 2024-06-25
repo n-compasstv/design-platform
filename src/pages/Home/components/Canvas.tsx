@@ -1,4 +1,4 @@
-import { createRef } from "react";
+import { createRef, useEffect, useState } from "react";
 import { Stage, Layer } from "react-konva";
 import Konva from "konva";
 import { Box } from "@mui/material";
@@ -9,8 +9,17 @@ import CircleElement from "./Shapes/CircleElement";
 import RectElement from "./Shapes/RectElement";
 import TriangleElement from "./Shapes/TriangleElement";
 import TextElement from "./Text/TextElement";
+import { html } from "js-to-html";
+import { Node, NodeConfig } from "konva/lib/Node";
+import { objectToCssString } from "../../../app/helpers/string";
+import saveAs from "file-saver";
+import { useCustomEventListener } from "react-custom-events";
 
 const Canvas = () => {
+  const [canvasWidth] = useState(window.innerWidth - 500);
+  const [canvasHeight] = useState((canvasWidth * 9) / 16);
+
+  console.log("rerendered", canvasWidth);
   const stageRef = createRef<Konva.Stage>();
   const dispatch = useAppDispatch();
   const { layers, selectedLayer } = useAppSelector((u) => u.layer);
@@ -22,12 +31,94 @@ const Canvas = () => {
     }
   };
 
+  const getLayers = (layerType: string) => {
+    const stage = stageRef.current?.getStage();
+    return (
+      stage?.find(layerType).map((text: Node<NodeConfig>, index: number) => {
+        let style = {};
+
+        switch (layerType) {
+          case "Text": {
+            style = {
+              position: "absolute",
+              left: `${text.attrs.x}px`,
+              top: `${text.attrs.y}px`,
+              font_size: `${text.attrs.fontSize}px`,
+              font_family: text.attrs.fontFamily,
+              color: text.attrs.fill,
+              letter_spacing: `${text.attrs.letterSpacing}px`,
+              line_height: text.attrs.lineHeight,
+              text_align: text.attrs.align,
+              width: `${text.attrs.width}px`,
+              height: `${text.attrs.height}px`,
+              z_index: layers.length - index,
+            };
+            break;
+          }
+          case "Rect": {
+            style = {
+              position: "absolute",
+              left: `${text.attrs.x}px`,
+              top: `${text.attrs.y}px`,
+              background: text.attrs.fill,
+              width: `${text.attrs.width}px`,
+              height: `${text.attrs.height}px`,
+              border_radius: `${text.attrs.radius}px`,
+              border_color: `${text.attrs.stroke}`,
+              border_width: `${text.attrs.strokeWidth}px`,
+              border_style: "solid",
+              z_index: index,
+            };
+            break;
+          }
+          default:
+        }
+        return html.p({ style: objectToCssString(style) }, text.attrs.text);
+      }) || []
+    );
+  };
+
+  const canvasToHtmlEvent = () => {
+    const stage = stageRef.current?.getStage();
+    if (stage) {
+      const textLayers = getLayers("Text");
+      const rectLayers = getLayers("Rect");
+
+      var finalHtml = html.html([
+        html.head([html.style("p { margin: 0 }")]),
+        html.body([...textLayers, ...rectLayers]),
+      ]);
+      const htmlString = finalHtml.toHtmlDoc({ title: "test", pretty: true }, {});
+
+      const blob = new Blob([htmlString], { type: "text/html" });
+
+      saveAs(blob, "test.html");
+    }
+  };
+
+  useCustomEventListener(
+    "ce-canvastohtml",
+    () => {
+      canvasToHtmlEvent();
+    },
+    []
+  );
+
+  useEffect(() => {
+    setTimeout(() => {
+      stageRef.current?.draw();
+    }, 1);
+  }, []);
+
+
+  console.log(canvasWidth)
+
   return (
-    <Box p={5}>
+    <Box p={5} alignSelf="start">
       <Stage
         className="konva-container"
-        width={1280}
-        height={720}
+        width={canvasWidth}
+        height={canvasHeight}
         style={{ background: "#fff" }}
         ref={stageRef}
         onMouseDown={checkDeselect}
